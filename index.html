@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Davcopia POS - Kelola Bisnis Lebih Mudah</title>
+    <meta name="description" content="Davcopia adalah aplikasi Point of Sale modern offline-first yang dirancang untuk UMKM, toko retail, minimarket, kafe, dan bisnis lainnya.">
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons (Lucide via Unpkg) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* --- CSS VARIABLES & TOKENS --- */
+        :root {
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --secondary: #1E293B;
+            --accent: #22C55E;
+            --background: #FFFFFF;
+            --surface: #F8FAFC;
+            --surface-card: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+            --shadow-lg: 0 20px 50px -12px rgba(37, 99, 235, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --max-width: 1280px;
+        }
+
+        /* --- BASE RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        section {
+            padding: 100px 24px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        /* --- UTILITY CLASSES --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--secondary);
+            background-color: rgba(30, 41, 59, 0.02);
+            transform: translateY(-2px);
+        }
+
+        .text-center { text-align: center; }
+        
+        .section-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 60px auto;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- SCROLL REVEAL ANIMATION --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVBAR --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            border-color: var(--border);
+            box-shadow: var(--shadow-sm);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        /* --- SECTION 1: HERO --- */
+        #hero {
+            padding-top: 160px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--secondary);
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 540px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .hero-image-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mockup-desktop {
+            width: 100%;
+            height: auto;
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+            border-radius: var(--radius-md);
+            aspect-ratio: 16/10;
+            box-shadow: var(--shadow-lg);
+            border: 4px solid #334155;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mockup-phone {
+            position: absolute;
+            bottom: -30px;
+            left: -20px;
+            width: 160px;
+            height: 320px;
+            background: #000;
+            border-radius: 24px;
+            border: 4px solid #334155;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        /* Inner graphic styles using UI skeletons */
+        .ui-skeleton {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .ui-top { height: 20px; background: rgba(255,255,255,0.1); border-radius: 4px; width: 40%;}
+        .ui-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex-grow: 1;}
+        .ui-box { background: rgba(255,255,255,0.05); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);}
+        .ui-box.active { background: rgba(37, 99, 235, 0.2); border-color: var(--primary); }
+
+        /* --- SECTION 2: FEATURES --- */
+        #features-bg { background-color: var(--surface); }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background-color: var(--surface-card);
+            padding: 32px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(37, 99, 235, 0.2);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--secondary);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- SECTION 3: WHY DAVCOPIA --- */
+        .why-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .why-card {
+            background: #FFF;
+            padding: 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .why-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .why-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .why-right h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .why-right p {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .business-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .type-tag {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- SECTION 4: PLANS --- */
+        #plans-bg { background-color: var(--surface); }
+
+        .pricing-container {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .pricing-card.premium {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: scale(1.03);
+            background: linear-gradient(to bottom, #FFF, #F8FAFC);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .pricing-features {
+            margin: 32px 0;
+            flex-grow: 1;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            color: var(--secondary);
+        }
+
+        .pricing-features li.disabled {
+            color: var(--text-muted);
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* --- SECTION 5: PREVIEW GALLERY --- */
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-muted);
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .gallery-display {
+            background: var(--secondary);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            aspect-ratio: 16/9;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-view {
+            width: 100%;
+            height: 100%;
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .gallery-view.active {
+            display: block;
+        }
+
+        /* Skeletons inside gallery components for premium presentation */
+        .preview-skeleton {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-md);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 24px;
+            color: #fff;
+        }
+
+        /* --- SECTION 6: HOW IT WORKS --- */
+        #how-it-works-bg { background-color: var(--surface); }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            position: relative;
+        }
+
+        .step-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            font-weight: 800;
+            font-size: 1.25rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .step-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--secondary);
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- SECTION 7: TESTIMONIALS --- */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: #FFF;
+            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stars {
+            color: #FBBF24;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-card p {
+            color: var(--secondary);
+            font-style: italic;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-details h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .user-details span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* --- SECTION 8: FAQ --- */
+        #faq-bg { background-color: var(--surface); }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--secondary);
+            user-select: none;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+            padding: 0 24px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding-bottom: 24px;
+            transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+        }
+
+        .faq-icon {
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* --- SECTION 9: CTA --- */
+        #cta {
+            padding: 0 24px;
+            margin-bottom: 100px;
+        }
+
+        .cta-wrapper {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0F172A 100%);
+            border-radius: var(--radius-lg);
+            padding: 80px 40px;
+            text-center: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cta-wrapper h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-wrapper p {
+            color: #94A3B8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* --- SECTION 10: FOOTER --- */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 80px 24px 40px 24px;
+            border-top: 1px solid #1E293B;
+        }
+
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h3 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            max-width: 260px;
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .footer-links ul {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid #1E293B;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        /* --- BACK TO TOP --- */
+        #back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: var(--primary);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            z-index: 99;
+            border: none;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 1024px) {
+            #hero { grid-template-columns: 1fr; text-align: center; padding-top: 140px; }
+            .hero-content p { margin: 0 auto 40px auto; }
+            .hero-actions { justify-content: center; }
+            .hero-image-container { margin-top: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+            .why-container { grid-template-columns: 1fr; }
+            .steps-container { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+            .section-header h2 { font-size: 2rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .pricing-container { flex-direction: column; align-items: center; }
+            .pricing-card { width: 100%; max-width: 450px; }
+            .pricing-card.premium { transform: none; }
+            .steps-container { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; gap: 32px; }
+            .cta-wrapper h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACK TO TOP -->
+    <button id="back-to-top" aria-label="Back to Top">
+        <i data-lucide="arrow-up"></i>
+    </button>
+
+    <!-- NAVBAR -->
+    <header id="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i data-lucide="shapes" style="stroke-width: 2.5px;"></i> Davcopia
+            </a>
+            <nav class="nav-links">
+                <a href="#features">Fitur</a>
+                <a href="#why">Keunggulan</a>
+                <a href="#pricing">Harga</a>
+                <a href="#preview">Preview</a>
+                <a href="#faq">FAQ</a>
+                <a href="#pricing" class="btn btn-primary" style="padding: 8px 20px;">Mulai Sekarang</a>
+            </nav>
+            <div class="menu-toggle" id="menu-toggle">
+                <i data-lucide="menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: HERO -->
+    <section id="hero">
+        <div class="hero-content reveal">
+            <span class="badge">Offline-First Technology</span>
+            <h1>Kelola Bisnis Lebih Mudah dengan Davcopia POS</h1>
+            <p>Davcopia adalah aplikasi Point of Sale modern yang dirancang untuk UMKM, toko retail, minimarket, kafe, dan bisnis lainnya dengan sistem offline-first yang cepat, aman, dan mudah digunakan.</p>
+            <div class="hero-actions">
+                <a href="#pricing" class="btn btn-primary">Mulai Sekarang <i data-lucide="arrow-right"></i></a>
+                <a href="#features" class="btn btn-secondary">Lihat Fitur</a>
+            </div>
+        </div>
+        <div class="hero-image-container reveal" style="transition-delay: 0.2s;">
+            <div class="mockup-desktop">
+                <div class="ui-skeleton">
+                    <div class="ui-top"></div>
+                    <div class="ui-grid">
+                        <div class="ui-box active"></div>
+                        <div class="ui-box"></div>
+                        <div class="ui-box"></div>
+                        <div class="ui-box"></div>
+                        <div class="ui-box"></div>
+                        <div class="ui-box"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mockup-phone">
+                <div class="ui-skeleton" style="padding: 12px;">
+                    <div class="ui-top" style="width: 60%;"></div>
+                    <div class="ui-box active" style="flex-grow: 1;"></div>
+                    <div class="ui-box" style="height: 60px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: FEATURES -->
+    <div id="features-bg">
+        <section id="features" class="reveal">
+            <div class="section-header">
+                <span class="badge">Fitur Aplikasi</span>
+                <h2>Segala Fitur untuk Membantu Skala Bisnis Anda</h2>
+                <p>Arsitektur sistem yang lengkap dan handal untuk mempercepat operasional harian usaha tanpa kendala.</p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Card 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="box"></i></div>
+                    <h3>Manajemen Barang</h3>
+                    <p>Kontrol penuh stok produk, varian, harga jual, serta pelacakan inventaris secara real-time.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="zap"></i></div>
+                    <h3>Penjualan Cepat</h3>
+                    <p>Proses transaksi kasir kilat dengan pencarian instan maupun barcode scanning otomatis.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="bar-chart-3"></i></div>
+                    <h3>Laporan Penjualan</h3>
+                    <p>Analisis omset harian, bulanan, margin keuntungan, serta produk paling laris secara akurat.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="users"></i></div>
+                    <h3>Multi Kasir</h3>
+                    <p>Kelola banyak kasir atau cabang dalam satu ekosistem operasional yang terintegrasi.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+                    <h3>Hak Akses Kasir</h3>
+                    <p>Batasi akses menu sensitif untuk kasir guna menghindari kecurangan/fraud di toko.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="wifi-off"></i></div>
+                    <h3>Offline First</h3>
+                    <p>Aplikasi tetap berjalan 100% normal tanpa koneksi internet. Transaksi tidak tertunda.</p>
+                </div>
+                <!-- Card 7 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="cloud-lightning"></i></div>
+                    <h3>Cloud Backup</h3>
+                    <p>Sinkronisasi data otomatis ke cloud yang aman saat perangkat terhubung kembali ke internet.</p>
+                </div>
+                <!-- Card 8 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="smartphone-charging"></i></div>
+                    <h3>Device Migration</h3>
+                    <p>Pindahkan data operasional bisnis ke perangkat baru dengan mudah tanpa risiko kehilangan berkas.</p>
+                </div>
+                <!-- Card 9 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="line-chart"></i></div>
+                    <h3>Dashboard Owner</h3>
+                    <p>Pantau perkembangan performa bisnis kapan saja dari dashboard khusus pemilik.</p>
+                </div>
+                <!-- Card 10 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="file-spreadsheet"></i></div>
+                    <h3>Import & Export Excel</h3>
+                    <p>Kelola ribuan database produk dan laporan dengan fitur unggah serta unduh via file Excel.</p>
+                </div>
+                <!-- Card 11 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="contact-2"></i></div>
+                    <h3>Manajemen Pelanggan</h3>
+                    <p>Catat data loyalitas pelanggan, poin, riwayat transaksi belanja untuk strategi pemasaran.</p>
+                </div>
+                <!-- Card 12 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="truck"></i></div>
+                    <h3>Manajemen Supplier</h3>
+                    <p>Monitor pasokan produk masuk serta track hutang piutang dengan supplier secara rapi.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SECTION 3: WHY DAVCOPIA -->
+    <section id="why" class="why-container reveal">
+        <div class="why-grid">
+            <div class="why-card">
+                <h4><i data-lucide="zap" style="color: var(--primary)"></i> Cepat</h4>
+                <p>Tidak bergantung pada internet sama sekali saat melayani pelanggan.</p>
+            </div>
+            <div class="why-card">
+                <h4><i data-lucide="lock" style="color: var(--primary)"></i> Aman</h4>
+                <p>Backup cloud berkala otomatis dan proteksi enkripsi sesi perangkat.</p>
+            </div>
+            <div class="why-card">
+                <h4><i data-lucide="smartphone" style="color: var(--primary)"></i> Mudah</h4>
+                <p>Interface sederhana, ramah pengguna, bahkan bagi yang awam teknologi.</p>
+            </div>
+            <div class="why-card">
+                <h4><i data-lucide="pie-chart" style="color: var(--primary)"></i> Lengkap</h4>
+                <p>Laporan analisis performa bisnis komprehensif, cepat & real-time.</p>
+            </div>
+        </div>
+        <div class="why-right">
+            <span class="badge">Mengapa Memilih Kami</span>
+            <h3>Satu Aplikasi Tangguh untuk Semua Jenis Bisnis</h3>
+            <p>Davcopia dirancang secara universal untuk memenuhi fleksibilitas operasional berbagai lini sektor usaha mikro maupun retail modern.</p>
+            <div class="business-types">
+                <span class="type-tag"><i data-lucide="store"></i> Retail</span>
+                <span class="type-tag"><i data-lucide="shopping-bag"></i> Minimarket</span>
+                <span class="type-tag"><i data-lucide="package"></i> Toko</span>
+                <span class="type-tag"><i data-lucide="coffee"></i> Cafe</span>
+                <span class="type-tag"><i data-lucide="briefcase"></i> UMKM</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: PLANS -->
+    <div id="plans-bg">
+        <section id="pricing" class="reveal">
+            <div class="section-header">
+                <span class="badge">Skema Harga</span>
+                <h2>Pilih Paket Investasi Bisnis Anda</h2>
+                <p>Tanpa biaya tersembunyi. Pilih opsi paket terbaik sesuai dengan kapasitas operasional usaha Anda.</p>
+            </div>
+            
+            <div class="pricing-container">
+                <!-- Basic Plan -->
+                <div class="pricing-card">
+                    <h3>Basic Plan</h3>
+                    <p style="color: var(--text-muted);">Sempurna untuk rintisan usaha awal / UMKM mandiri.</p>
+                    <div style="margin-top: 16px;"><span style="font-size: 2rem; font-weight: 800;">Free</span></div>
+                    
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Offline & Online Mode</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Maksimal 2 Kasir</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Backup Lokal Perangkat</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Single Device Usage</li>
+                        <li class="disabled"><i data-lucide="x"></i> Tanpa Cloud Backup</li>
+                    </ul>
+                    <button class="btn btn-secondary">Mulai Basic</button>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div class="pricing-card premium">
+                    <span class="pricing-badge">Rekomendasi</span>
+                    <h3>Pro Plan</h3>
+                    <p style="color: var(--text-muted);">Solusi ideal bisnis dengan mobilitas tinggi dan multi-cabang.</p>
+                    <div style="margin-top: 16px;"><span style="font-size: 2rem; font-weight: 800;">Berlangganan</span></div>
+                    
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Unlimited Akun Kasir</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Cloud Backup Otomatis</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Restore Data Kapan Saja</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Multi-Device Migration</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Import & Export Excel</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Manajemen Hak Akses</li>
+                        <li><i data-lucide="check" style="color: var(--accent)"></i> Prioritas Layanan Support 24/7</li>
+                    </ul>
+                    <button class="btn btn-primary">Upgrade ke Pro</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SECTION 5: APPLICATION PREVIEW -->
+    <section id="preview" class="reveal">
+        <div class="section-header">
+            <span class="badge">Antarmuka</span>
+            <h2>Eksplorasi Dashboard Davcopia</h2>
+            <p>Tampilan aplikasi modern, bersih, intuitif, dan nyaman dipandang berjam-jam saat melayani pembeli.</p>
+        </div>
+
+        <div class="gallery-tabs">
+            <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab-btn" onclick="switchTab('kasir')">Kasir</button>
+            <button class="tab-btn" onclick="switchTab('barang')">Barang</button>
+            <button class="tab-btn" onclick="switchTab('laporan')">Laporan</button>
+            <button class="tab-btn" onclick="switchTab('membership')">Membership</button>
+            <button class="tab-btn" onclick="switchTab('backup')">Backup</button>
+            <button class="tab-btn" onclick="switchTab('device')">Device</button>
+        </div>
+
+        <div class="gallery-display">
+            <div id="dashboard" class="gallery-view active">
+                <div class="preview-skeleton"><h3>📊 [Preview Screen: Dashboard Utama & Statistik Owner]</h3></div>
+            </div>
+            <div id="kasir" class="gallery-view">
+                <div class="preview-skeleton"><h3>🛒 [Preview Screen: Antarmuka Transaksi Kasir Kilat]</h3></div>
+            </div>
+            <div id="barang" class="gallery-view">
+                <div class="preview-skeleton"><h3>📦 [Preview Screen: Katalog Manajemen & Stok Produk]</h3></div>
+            </div>
+            <div id="laporan" class="gallery-view">
+                <div class="preview-skeleton"><h3>📈 [Preview Screen: Grafik Pendapatan & Laba Bersih]</h3></div>
+            </div>
+            <div id="membership" class="gallery-view">
+                <div class="preview-skeleton"><h3>👥 [Preview Screen: Database Member & Loyalitas Pelanggan]</h3></div>
+            </div>
+            <div id="backup" class="gallery-view">
+                <div class="preview-skeleton"><h3>☁️ [Preview Screen: Panel Sinkronisasi Cloud Backup]</h3></div>
+            </div>
+            <div id="device" class="gallery-view">
+                <div class="preview-skeleton"><h3>🔄 [Preview Screen: Pengaturan Migrasi Sesi Perangkat]</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: HOW IT WORKS -->
+    <div id="how-it-works-bg">
+        <section id="how-it-works" class="reveal">
+            <div class="section-header">
+                <span class="badge">Langkah Mudah</span>
+                <h2>Cara Kerja Davcopia POS</h2>
+                <p>Lakukan setup cepat dalam hitungan menit untuk mengotomatisasi kasir Anda.</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Install Davcopia</h3>
+                    <p>Unduh aplikasi resmi Davcopia langsung ke perangkat desktop atau Android pilihan Anda.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Masukkan Barang</h3>
+                    <p>Input data master barang atau import langsung secara massal menggunakan template Excel.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Mulai Berjualan</h3>
+                    <p>Buka layar kasir, scan produk, terima pembayaran, dan cetak struk nota instan.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Lihat Laporan</h3>
+                    <p>Pantau laporan performa grafik laba rugi serta riwayat transaksi secara real-time.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SECTION 7: TESTIMONIALS -->
+    <section id="testimonials" class="reveal">
+        <div class="section-header">
+            <span class="badge">Testimoni</span>
+            <h2>Cerita Sukses Pengguna Davcopia</h2>
+            <p>Telah dipercaya oleh berbagai pemilik bisnis di Indonesia untuk meningkatkan produktivitas harian toko.</p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div>
+                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                    <p>"Fitur offline-first Davcopia sangat membantu. Toko kelontong saya sering sekali gangguan sinyal, tapi kasir tetap lancar melayani tanpa jeda."</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">B</div>
+                    <div class="user-details">
+                        <h4>Budi Santoso</h4>
+                        <span>Pemilik Toko Retail</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div>
+                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                    <p>"Manajemen stoknya rapi sekali. Fitur export/import excel menghemat waktu input berkali-kali lipat dibanding sistem manual lama kami."</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div class="user-details">
+                        <h4>Amelia Wijaya</h4>
+                        <span>Founder Kopi Cantik</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div>
+                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                    <p>"Sangat mudah membatasi hak akses kasir. Sekarang saya sebagai owner bisa memantau omset dari rumah dengan tenang tanpa takut fraud."</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">H</div>
+                    <div class="user-details">
+                        <h4>Hendra Kurnia</h4>
+                        <span>Pemilik Minimarket</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: FAQ -->
+    <div id="faq-bg">
+        <section id="faq" class="reveal">
+            <div class="section-header">
+                <span class="badge">FAQ</span>
+                <h2>Pertanyaan yang Sering Diajukan</h2>
+                <p>Temukan jawaban instan seputar penggunaan, kendala teknis, dan lisensi fitur Davcopia POS.</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Apakah Davcopia bisa digunakan tanpa internet?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Ya, Davcopia mengadopsi sistem offline-first penuh. Anda dapat melakukan input barang, transaksi kasir, dan melihat riwayat penjualan harian tanpa koneksi internet sama sekali.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana cara backup data?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Untuk pengguna paket Basic, backup dapat dilakukan secara lokal berupa export data file. Untuk paket Pro, sistem akan otomatis mencadangkan data terenkripsi langsung ke cloud server kami secara real-time saat terhubung internet.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Apakah data bisnis aman?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Sangat aman. Data Anda disimpan di lokal penyimpanan enkripsi perangkat dan dicadangkan dengan protokol keamanan cloud terproteksi end-to-end tanpa risiko kebocoran data pihak ketiga.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Berapa maksimal kasir yang didukung?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Paket Basic mendukung hingga 2 kasir dalam single device, sedangkan untuk paket Pro tidak memiliki batasan (Unlimited) jumlah kasir serta mendukung integrasi multi-perangkat.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana cara upgrade ke Pro?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Anda dapat langsung menekan tombol 'Upgrade ke Pro' pada aplikasi atau dashboard, lalu ikuti metode billing petunjuk pembayaran yang tersedia untuk aktivasi instan fitur pro.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SECTION 9: CALL TO ACTION -->
+    <section id="cta">
+        <div class="cta-wrapper reveal">
+            <h2>Siap Mengembangkan Bisnis Anda?</h2>
+            <p>Bergabunglah bersama ribuan wirausaha lainnya yang telah mendigitalisasi operasional kasir mereka agar lebih cepat, modern, dan efisien.</p>
+            <button class="btn btn-primary" style="background-color: white; color: var(--secondary); box-shadow: none;">Download Sekarang <i data-lucide="download"></i></button>
+        </div>
+    </section>
+
+    <!-- SECTION 10: FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3><i data-lucide="shapes"></i> Davcopia POS</h3>
+                <p>Smart Point of Sale Solution untuk kemajuan bisnis Anda.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Bantuan</h4>
+                <ul>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legalitas</h4>
+                <ul>
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Davcopia. All Rights Reserved.</p>
+            <p style="font-size: 0.8rem; color: #475569;">Designed for Excellence</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Sticky Navbar Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Responsive Mobile Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            if(navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.background = '#FFF';
+                navLinks.style.padding = '24px';
+                navLinks.style.borderBottom = '1px solid var(--border)';
+            }
+        });
+
+        // Scroll Reveal Animations
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            for (let i = 0; i < revealElements.length; i++) {
+                let windowHeight = window.innerHeight;
+                let elementTop = revealElements[i].getBoundingClientRect().top;
+                let elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    revealElements[i].classList.add('active');
+                }
+            }
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll); // Initial check
+
+        // Back to Top Button Logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // FAQ Accordion Toggle
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Application Preview Tab Switcher
+        function switchTab(tabId) {
+            // Remove active class from all tabs & views
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.gallery-view').forEach(view => view.classList.remove('active'));
+            
+            // Add active class to selected elements
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
