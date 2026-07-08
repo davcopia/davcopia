@@ -8,21 +8,14 @@
     <meta name="keywords" content="aplikasi kasir, POS, point of sale, kasir offline, aplikasi toko, UMKM, manajemen stok, laporan penjualan, barcode scanner, aplikasi warung">
     <meta name="author" content="Davcopia">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:title" content="Davcopia POS — Aplikasi Kasir Offline untuk UMKM">
     <meta property="og:description" content="Aplikasi kasir offline-first yang cepat, aman, dan mudah. Kelola barang, transaksi, laporan, dan multi kasir tanpa internet.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://davcopia.com">
-
-    <!-- Canonical -->
     <link rel="canonical" href="https://davcopia.com">
-
-    <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -42,874 +35,1075 @@
             --radius-md: 12px;
             --radius-lg: 24px;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
-            --shadow-lg: 0 20px 50px -12px rgba(37, 99, 235, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05),0 8px 10px -6px rgba(0,0,0,0.05);
+            --shadow-lg: 0 20px 50px -12px rgba(37,99,235,0.1);
+            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
             --max-width: 1280px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--background); color: var(--text-main); overflow-x: hidden; line-height: 1.6; }
-        section { padding: 100px 24px; max-width: var(--max-width); margin: 0 auto; }
-        a { text-decoration: none; color: inherit; }
-        li { list-style: none; }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif;}
+        html{scroll-behavior:smooth;}
+        body{background-color:var(--background);color:var(--text-main);overflow-x:hidden;line-height:1.6;}
+        section{padding:100px 24px;max-width:var(--max-width);margin:0 auto;}
+        a{text-decoration:none;color:inherit;}
+        li{list-style:none;}
 
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.95rem; border: none; }
-        .btn-primary { background-color: var(--primary); color: white; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); }
-        .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
-        .btn-secondary { background-color: transparent; color: var(--secondary); border: 2px solid var(--border); }
-        .btn-secondary:hover { border-color: var(--secondary); transform: translateY(-2px); }
-        .btn-pro { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3); }
-        .btn-pro:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;transition:var(--transition);font-size:0.95rem;border:none;}
+        .btn-primary{background-color:var(--primary);color:white;box-shadow:0 4px 14px rgba(37,99,235,0.3);}
+        .btn-primary:hover{background-color:var(--primary-hover);transform:translateY(-2px);}
+        .btn-secondary{background-color:transparent;color:var(--secondary);border:2px solid var(--border);}
+        .btn-secondary:hover{border-color:var(--secondary);transform:translateY(-2px);}
+        .btn-pro{background:linear-gradient(135deg,#F59E0B,#D97706);color:white;box-shadow:0 4px 14px rgba(245,158,11,0.3);}
+        .btn-pro:hover{transform:translateY(-2px);filter:brightness(1.1);}
 
-        .section-header { text-align: center; max-width: 650px; margin: 0 auto 60px auto; }
-        .section-header h2 { font-size: 2.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 16px; letter-spacing: -0.02em; }
-        .section-header p { color: var(--text-muted); font-size: 1.1rem; }
-        .badge { background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 6px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .section-header{text-align:center;max-width:650px;margin:0 auto 60px auto;}
+        .section-header h2{font-size:2.5rem;font-weight:800;color:var(--secondary);margin-bottom:16px;letter-spacing:-0.02em;}
+        .section-header p{color:var(--text-muted);font-size:1.1rem;}
+        .badge{background:rgba(37,99,235,0.1);color:var(--primary);padding:6px 16px;border-radius:100px;font-size:0.85rem;font-weight:700;display:inline-block;margin-bottom:16px;text-transform:uppercase;letter-spacing:0.05em;}
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease;}
+        .reveal.active{opacity:1;transform:translateY(0);}
 
-        /* NAVBAR */
-        header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: var(--transition); }
-        header.scrolled { border-color: var(--border); box-shadow: var(--shadow-sm); background: rgba(255,255,255,0.95); }
-        .nav-container { max-width: var(--max-width); margin: 0 auto; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { font-weight: 500; color: var(--secondary); transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary); }
-        .menu-toggle { display: none; cursor: pointer; color: var(--secondary); }
+        /* ── NAVBAR ── */
+        header{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:var(--transition);}
+        header.scrolled{border-color:var(--border);box-shadow:var(--shadow-sm);background:rgba(255,255,255,0.97);}
+        .nav-container{max-width:var(--max-width);margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;}
+        .logo{display:flex;align-items:center;gap:10px;}
+        .logo img{height:38px;width:auto;object-fit:contain;}
+        .logo-text{font-size:1.4rem;font-weight:800;color:var(--primary);}
+        .nav-links{display:flex;gap:32px;align-items:center;}
+        .nav-links a{font-weight:500;color:var(--secondary);transition:var(--transition);}
+        .nav-links a:hover{color:var(--primary);}
+        .menu-toggle{display:none;cursor:pointer;color:var(--secondary);}
 
-        /* HERO */
-        #hero { padding-top: 160px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
-        .hero-content h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.2; color: var(--secondary); letter-spacing: -0.03em; margin-bottom: 24px; }
-        .hero-content h1 span { color: var(--primary); }
-        .hero-content p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 40px; max-width: 540px; }
-        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-        .hero-stats { display: flex; gap: 32px; margin-top: 48px; }
-        .hero-stat h3 { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        .hero-stat p { font-size: 0.85rem; color: var(--text-muted); }
+        /* ── HERO ── */
+        #hero{padding-top:140px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center;}
+        .hero-content h1{font-size:3.4rem;font-weight:800;line-height:1.2;color:var(--secondary);letter-spacing:-0.03em;margin-bottom:24px;}
+        .hero-content h1 span{color:var(--primary);}
+        .hero-content p{font-size:1.15rem;color:var(--text-muted);margin-bottom:40px;max-width:540px;}
+        .hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+        .hero-stats{display:flex;gap:32px;margin-top:48px;flex-wrap:wrap;}
+        .hero-stat h3{font-size:1.8rem;font-weight:800;color:var(--primary);}
+        .hero-stat p{font-size:0.85rem;color:var(--text-muted);}
 
-        .hero-image-container { position: relative; display: flex; justify-content: center; align-items: center; }
-        .mockup-phone-hero { width: 280px; height: 560px; background: #000; border-radius: 36px; border: 5px solid #334155; box-shadow: var(--shadow-lg), 0 40px 80px -20px rgba(0,0,0,0.2); overflow: hidden; position: relative; }
-        .mockup-phone-hero .notch { width: 120px; height: 28px; background: #000; border-radius: 0 0 16px 16px; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }
-        .phone-screen { width: 100%; height: 100%; background: linear-gradient(180deg, #1E40AF 0%, #2563EB 50%, #3B82F6 100%); display: flex; flex-direction: column; padding: 40px 16px 16px 16px; gap: 10px; }
-        .phone-ui-bar { height: 36px; background: rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; padding: 0 12px; gap: 8px; }
-        .phone-ui-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); }
-        .phone-ui-bar .line { height: 8px; flex: 1; background: rgba(255,255,255,0.1); border-radius: 4px; }
-        .phone-ui-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; }
-        .phone-ui-card { background: rgba(255,255,255,0.08); border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); }
-        .phone-ui-card.active { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.25); }
-        .phone-ui-bottom { height: 44px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: space-around; }
-        .phone-ui-bottom .nav-dot { width: 20px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.3); }
-        .phone-ui-bottom .nav-dot.active { background: white; width: 28px; }
+        /* ── HERO IMAGE / SCREENSHOT SLIDER ── */
+        .hero-image-container{position:relative;display:flex;justify-content:center;align-items:center;}
+        .phone-frame{width:260px;height:520px;background:#000;border-radius:36px;border:5px solid #334155;box-shadow:var(--shadow-lg),0 40px 80px -20px rgba(0,0,0,0.25);overflow:hidden;position:relative;flex-shrink:0;}
+        .phone-frame .notch{width:110px;height:26px;background:#000;border-radius:0 0 14px 14px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:3;}
+        .phone-slides{width:100%;height:100%;position:relative;}
+        .phone-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.7s ease;}
+        .phone-slide.active{opacity:1;}
+        .phone-slide img{width:100%;height:100%;object-fit:cover;object-position:top;}
+        .phone-dots{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
+        .phone-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:var(--transition);}
+        .phone-dot.active{background:var(--primary);width:20px;border-radius:4px;}
 
-        .floating-badge { position: absolute; background: white; border-radius: 12px; padding: 12px 16px; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; animation: float 3s ease-in-out infinite; }
-        .floating-badge i { color: var(--primary); }
-        .badge-1 { top: 60px; right: -20px; animation-delay: 0s; }
-        .badge-2 { bottom: 80px; left: -30px; animation-delay: 1.5s; }
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .floating-badge{position:absolute;background:white;border-radius:12px;padding:10px 14px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:10px;font-size:0.82rem;font-weight:600;animation:float 3s ease-in-out infinite;white-space:nowrap;}
+        .floating-badge i{color:var(--primary);}
+        .badge-1{top:50px;right:-10px;animation-delay:0s;}
+        .badge-2{bottom:70px;left:-20px;animation-delay:1.5s;}
+        @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 
-        /* FEATURES */
-        #features-bg { background-color: var(--surface); }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-        .feature-card { background-color: var(--surface-card); padding: 32px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: var(--transition); }
-        .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: rgba(37, 99, 235, 0.2); }
-        .feature-icon { width: 48px; height: 48px; background: rgba(37, 99, 235, 0.08); color: var(--primary); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
-        .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; color: var(--secondary); }
-        .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
+        /* ── FEATURES ── */
+        #features-bg{background-color:var(--surface);}
+        .features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;}
+        .feature-card{background-color:var(--surface-card);padding:32px;border-radius:var(--radius-md);box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:var(--transition);}
+        .feature-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:rgba(37,99,235,0.2);}
+        .feature-icon{width:48px;height:48px;background:rgba(37,99,235,0.08);color:var(--primary);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
+        .feature-card h3{font-size:1.15rem;font-weight:700;margin-bottom:12px;color:var(--secondary);}
+        .feature-card p{color:var(--text-muted);font-size:0.95rem;}
 
-        /* WHY */
-        .why-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-        .why-card { background: #FFF; padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-        .why-card h4 { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; color: var(--secondary); }
-        .why-card p { color: var(--text-muted); font-size: 0.9rem; }
-        .why-right h3 { font-size: 2.2rem; font-weight: 800; margin-bottom: 20px; color: var(--secondary); }
-        .why-right p { color: var(--text-muted); margin-bottom: 32px; }
-        .business-types { display: flex; flex-wrap: wrap; gap: 12px; }
-        .type-tag { background: var(--surface); border: 1px solid var(--border); padding: 8px 18px; border-radius: 100px; font-weight: 600; font-size: 0.9rem; color: var(--secondary); display: flex; align-items: center; gap: 6px; }
+        /* ── WHY ── */
+        .why-container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+        .why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+        .why-card{background:#FFF;padding:24px;border-radius:var(--radius-md);border:1px solid var(--border);box-shadow:var(--shadow-sm);}
+        .why-card h4{font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:8px;color:var(--secondary);}
+        .why-card p{color:var(--text-muted);font-size:0.9rem;}
+        .why-right h3{font-size:2.2rem;font-weight:800;margin-bottom:20px;color:var(--secondary);}
+        .why-right p{color:var(--text-muted);margin-bottom:32px;}
+        .business-types{display:flex;flex-wrap:wrap;gap:12px;}
+        .type-tag{background:var(--surface);border:1px solid var(--border);padding:8px 18px;border-radius:100px;font-weight:600;font-size:0.9rem;color:var(--secondary);display:flex;align-items:center;gap:6px;}
 
-        /* PLANS */
-        #plans-bg { background-color: var(--surface); }
-        .pricing-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; align-items: stretch; }
-        .pricing-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 32px; display: flex; flex-direction: column; position: relative; box-shadow: var(--shadow-sm); transition: var(--transition); }
-        .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-        .pricing-card.premium { border-color: var(--accent-orange); box-shadow: var(--shadow-lg); background: linear-gradient(to bottom, #FFFBEB, #FFF); }
-        .pricing-badge { position: absolute; top: -12px; right: 24px; background: var(--accent-orange); color: white; padding: 4px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; }
-        .pricing-plan-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-        .pricing-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
-        .pricing-card .price { margin: 12px 0 4px 0; }
-        .pricing-card .price span { font-size: 2rem; font-weight: 800; }
-        .pricing-card .price-period { font-size: 0.85rem; color: var(--text-muted); }
-        .pricing-card .price-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
-        .pricing-features { margin: 0 0 24px 0; flex-grow: 1; }
-        .pricing-features li { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 0.9rem; color: var(--secondary); }
-        .pricing-features li.disabled { color: var(--text-muted); opacity: 0.5; }
-        .pricing-features li i { flex-shrink: 0; margin-top: 2px; }
-        .pricing-card .btn { width: 100%; justify-content: center; }
+        /* ── PRICING ── */
+        #plans-bg{background-color:var(--surface);}
+        .pricing-container{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto;align-items:stretch;}
+        .pricing-card{background:var(--surface-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 32px;display:flex;flex-direction:column;position:relative;box-shadow:var(--shadow-sm);transition:var(--transition);}
+        .pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+        .pricing-card.premium{border-color:var(--accent-orange);box-shadow:var(--shadow-lg);background:linear-gradient(to bottom,#FFFBEB,#FFF);}
+        .pricing-badge{position:absolute;top:-12px;right:24px;background:var(--accent-orange);color:white;padding:4px 14px;border-radius:100px;font-size:0.75rem;font-weight:700;}
+        .pricing-plan-icon{width:48px;height:48px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+        .pricing-card h3{font-size:1.4rem;font-weight:800;margin-bottom:4px;}
+        .price{margin:12px 0 4px 0;}
+        .price span{font-size:2rem;font-weight:800;}
+        .price-period{font-size:0.85rem;color:var(--text-muted);}
+        .price-promo{font-size:0.8rem;color:var(--accent);font-weight:600;margin-top:4px;}
+        .price-desc{font-size:0.85rem;color:var(--text-muted);margin-bottom:20px;}
+        .pricing-features{margin:0 0 24px 0;flex-grow:1;}
+        .pricing-features li{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:0.9rem;color:var(--secondary);}
+        .pricing-features li.disabled{color:var(--text-muted);opacity:0.5;}
+        .pricing-features li i{flex-shrink:0;margin-top:2px;}
+        .pricing-card .btn{width:100%;justify-content:center;}
 
-        /* TRIAL BANNER */
-        .trial-banner { max-width: 700px; margin: 40px auto 0; background: linear-gradient(135deg, #7C3AED, #6D28D9); color: white; border-radius: var(--radius-md); padding: 24px 32px; display: flex; align-items: center; gap: 20px; }
-        .trial-banner i { flex-shrink: 0; }
-        .trial-banner h4 { font-size: 1.1rem; margin-bottom: 4px; }
-        .trial-banner p { font-size: 0.9rem; opacity: 0.85; }
+        /* Promo input */
+        .promo-section{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+        .promo-section label{font-size:0.8rem;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px;}
+        .promo-input-row{display:flex;gap:6px;}
+        .promo-input-row input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.85rem;outline:none;transition:var(--transition);}
+        .promo-input-row input:focus{border-color:var(--primary);}
+        .promo-input-row button{padding:8px 14px;background:var(--primary);color:white;border:none;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:var(--transition);}
+        .promo-input-row button:hover{background:var(--primary-hover);}
+        .promo-result{font-size:0.8rem;margin-top:6px;min-height:18px;font-weight:600;}
+        .promo-result.success{color:var(--accent);}
+        .promo-result.error{color:#EF4444;}
 
-        /* PREVIEW */
-        .gallery-tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-        .tab-btn { background: var(--surface); border: 1px solid var(--border); padding: 10px 20px; border-radius: 100px; font-weight: 600; cursor: pointer; transition: var(--transition); color: var(--text-muted); font-size: 0.9rem; }
-        .tab-btn.active, .tab-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-        .gallery-display { background: var(--secondary); border-radius: var(--radius-lg); padding: 40px; min-height: 400px; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .gallery-view { width: 100%; display: none; animation: fadeIn 0.5s ease forwards; }
-        .gallery-view.active { display: block; }
-        .preview-skeleton { width: 100%; border-radius: var(--radius-md); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 32px; color: #94A3B8; }
-        .preview-skeleton h3 { font-size: 1.3rem; margin-bottom: 12px; color: white; }
-        .preview-skeleton p { font-size: 0.95rem; line-height: 1.7; }
-        .preview-skeleton ul { margin-top: 12px; padding-left: 0; }
-        .preview-skeleton ul li { margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-        .preview-skeleton ul li::before { content: "✓"; color: var(--accent); font-weight: bold; }
+        /* Trial Banner */
+        .trial-banner{max-width:700px;margin:40px auto 0;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:white;border-radius:var(--radius-md);padding:24px 32px;display:flex;align-items:center;gap:20px;}
+        .trial-banner h4{font-size:1.1rem;margin-bottom:4px;}
+        .trial-banner p{font-size:0.9rem;opacity:0.85;}
 
-        /* HOW IT WORKS */
-        #how-it-works-bg { background-color: var(--surface); }
-        .steps-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        .step-card { background: var(--surface-card); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-md); text-align: center; box-shadow: var(--shadow-sm); }
-        .step-number { width: 50px; height: 50px; background: var(--primary); color: white; font-weight: 800; font-size: 1.25rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
-        .step-card h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--secondary); }
-        .step-card p { font-size: 0.9rem; color: var(--text-muted); }
+        /* ── PREVIEW ── */
+        .gallery-tabs{display:flex;justify-content:center;gap:12px;margin-bottom:40px;flex-wrap:wrap;}
+        .tab-btn{background:var(--surface);border:1px solid var(--border);padding:10px 20px;border-radius:100px;font-weight:600;cursor:pointer;transition:var(--transition);color:var(--text-muted);font-size:0.9rem;}
+        .tab-btn.active,.tab-btn:hover{background:var(--primary);color:white;border-color:var(--primary);}
+        .gallery-display{background:var(--secondary);border-radius:var(--radius-lg);padding:40px;min-height:420px;box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+        .gallery-view{width:100%;display:none;animation:fadeIn 0.5s ease forwards;}
+        .gallery-view.active{display:block;}
 
-        /* SECURITY */
-        .security-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
-        .security-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; text-align: center; box-shadow: var(--shadow-sm); }
-        .security-card .icon-wrap { width: 56px; height: 56px; background: rgba(37,99,235,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--primary); }
-        .security-card h4 { font-weight: 700; margin-bottom: 8px; color: var(--secondary); }
-        .security-card p { color: var(--text-muted); font-size: 0.9rem; }
+        /* Screenshot mode untuk gallery */
+        .gallery-screenshot{width:100%;display:flex;align-items:center;justify-content:center;}
+        .gallery-screenshot img{max-height:380px;width:auto;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);object-fit:contain;}
 
-        /* TESTIMONIALS */
-        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .testimonial-card { background: #FFF; border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; }
-        .stars { color: #FBBF24; margin-bottom: 16px; display: flex; gap: 2px; }
-        .testimonial-card blockquote { color: var(--secondary); font-style: italic; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; }
-        .user-info { display: flex; align-items: center; gap: 12px; }
-        .user-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary); font-size: 1.1rem; }
-        .user-details h4 { font-size: 0.95rem; font-weight: 700; color: var(--secondary); }
-        .user-details span { font-size: 0.8rem; color: var(--text-muted); }
+        .preview-skeleton{width:100%;border-radius:var(--radius-md);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:32px;color:#94A3B8;}
+        .preview-skeleton h3{font-size:1.3rem;margin-bottom:12px;color:white;}
+        .preview-skeleton p{font-size:0.95rem;line-height:1.7;}
+        .preview-skeleton ul{margin-top:12px;padding-left:0;}
+        .preview-skeleton ul li{margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+        .preview-skeleton ul li::before{content:"✓";color:var(--accent);font-weight:bold;}
 
-        /* FAQ */
-        #faq-bg { background-color: var(--surface); }
-        .faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-        .faq-item { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; transition: var(--transition); }
-        .faq-item.active { border-color: rgba(37,99,235,0.3); }
-        .faq-question { padding: 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; color: var(--secondary); user-select: none; gap: 16px; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0, 1, 0, 1); padding: 0 24px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
-        .faq-item.active .faq-answer { max-height: 1000px; padding-bottom: 24px; transition: max-height 0.3s cubic-bezier(1, 0, 1, 0); }
-        .faq-icon { transition: var(--transition); flex-shrink: 0; }
-        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        /* ── HOW IT WORKS ── */
+        #how-it-works-bg{background-color:var(--surface);}
+        .steps-container{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+        .step-card{background:var(--surface-card);border:1px solid var(--border);padding:32px;border-radius:var(--radius-md);text-align:center;box-shadow:var(--shadow-sm);}
+        .step-number{width:50px;height:50px;background:var(--primary);color:white;font-weight:800;font-size:1.25rem;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px auto;box-shadow:0 4px 10px rgba(37,99,235,0.3);}
+        .step-card h3{font-size:1.1rem;margin-bottom:12px;color:var(--secondary);}
+        .step-card p{font-size:0.9rem;color:var(--text-muted);}
 
-        /* CTA */
-        #cta { padding: 0 24px; margin-bottom: 100px; }
-        .cta-wrapper { background: linear-gradient(135deg, var(--secondary) 0%, #0F172A 100%); border-radius: var(--radius-lg); padding: 80px 40px; color: white; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); max-width: var(--max-width); margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .cta-wrapper::before { content: ''; position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(37,99,235,0.15), transparent); top: -200px; right: -100px; border-radius: 50%; }
-        .cta-wrapper h2 { font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; position: relative; }
-        .cta-wrapper p { color: #94A3B8; font-size: 1.1rem; max-width: 600px; margin-bottom: 40px; position: relative; }
+        /* ── SECURITY ── */
+        .security-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;}
+        .security-card{background:var(--surface-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:28px;text-align:center;box-shadow:var(--shadow-sm);}
+        .security-card .icon-wrap{width:56px;height:56px;background:rgba(37,99,235,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--primary);}
+        .security-card h4{font-weight:700;margin-bottom:8px;color:var(--secondary);}
+        .security-card p{color:var(--text-muted);font-size:0.9rem;}
 
-        /* FOOTER */
-        footer { background: #0F172A; color: #94A3B8; padding: 80px 24px 40px; border-top: 1px solid #1E293B; }
-        .footer-container { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 40px; margin-bottom: 60px; }
-        .footer-brand h3 { color: white; font-size: 1.5rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .footer-brand p { font-size: 0.95rem; max-width: 280px; line-height: 1.6; }
-        .footer-links h4 { color: white; font-weight: 600; margin-bottom: 20px; }
-        .footer-links ul { display: flex; flex-direction: column; gap: 12px; }
-        .footer-links a { font-size: 0.95rem; transition: var(--transition); }
-        .footer-links a:hover { color: white; }
-        .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 40px; border-top: 1px solid #1E293B; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; flex-wrap: wrap; gap: 12px; }
+        /* ── TESTIMONIALS ── */
+        .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;}
+        .testimonial-card{background:#FFF;border:1px solid var(--border);padding:32px;border-radius:var(--radius-md);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;justify-content:space-between;}
+        .stars{color:#FBBF24;margin-bottom:16px;display:flex;gap:2px;}
+        .testimonial-card blockquote{color:var(--secondary);font-style:italic;margin-bottom:24px;font-size:0.95rem;line-height:1.6;}
+        .user-info{display:flex;align-items:center;gap:12px;}
+        .user-avatar{width:44px;height:44px;border-radius:50%;background:var(--surface);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--primary);font-size:1.1rem;}
+        .user-details h4{font-size:0.95rem;font-weight:700;color:var(--secondary);}
+        .user-details span{font-size:0.8rem;color:var(--text-muted);}
 
-        #back-to-top { position: fixed; bottom: 40px; right: 40px; background: var(--primary); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: var(--transition); z-index: 99; border: none; }
-        #back-to-top.show { opacity: 1; pointer-events: auto; }
+        /* ── FAQ ── */
+        #faq-bg{background-color:var(--surface);}
+        .faq-container{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+        .faq-item{background:var(--surface-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;transition:var(--transition);}
+        .faq-item.active{border-color:rgba(37,99,235,0.3);}
+        .faq-question{padding:24px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;color:var(--secondary);user-select:none;gap:16px;}
+        .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s cubic-bezier(0,1,0,1);padding:0 24px;color:var(--text-muted);font-size:0.95rem;line-height:1.7;}
+        .faq-item.active .faq-answer{max-height:1000px;padding-bottom:24px;transition:max-height 0.3s cubic-bezier(1,0,1,0);}
+        .faq-icon{transition:var(--transition);flex-shrink:0;}
+        .faq-item.active .faq-icon{transform:rotate(180deg);}
 
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        /* ── CTA ── */
+        #cta{padding:0 24px;margin-bottom:100px;}
+        .cta-wrapper{background:linear-gradient(135deg,var(--secondary) 0%,#0F172A 100%);border-radius:var(--radius-lg);padding:80px 40px;color:white;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);max-width:var(--max-width);margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;}
+        .cta-wrapper::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(37,99,235,0.15),transparent);top:-200px;right:-100px;border-radius:50%;}
+        .cta-wrapper h2{font-size:2.8rem;font-weight:800;margin-bottom:16px;letter-spacing:-0.02em;position:relative;}
+        .cta-wrapper p{color:#94A3B8;font-size:1.1rem;max-width:600px;margin-bottom:40px;position:relative;}
 
-        @media (max-width: 1024px) {
-            #hero { grid-template-columns: 1fr; text-align: center; padding-top: 140px; }
-            .hero-content p { margin: 0 auto 40px auto; }
-            .hero-actions { justify-content: center; }
-            .hero-stats { justify-content: center; }
-            .hero-image-container { margin-top: 40px; }
-            .why-container { grid-template-columns: 1fr; }
-            .steps-container { grid-template-columns: repeat(2, 1fr); }
-            .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
-            .pricing-container { grid-template-columns: 1fr; max-width: 420px; }
-            .security-grid { grid-template-columns: 1fr 1fr; }
+        /* ── FOOTER ── */
+        footer{background:#0F172A;color:#94A3B8;padding:80px 24px 40px;border-top:1px solid #1E293B;}
+        .footer-container{max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:40px;margin-bottom:60px;}
+        .footer-brand{display:flex;flex-direction:column;gap:16px;}
+        .footer-logo{display:flex;align-items:center;gap:10px;}
+        .footer-logo img{height:32px;width:auto;filter:brightness(0) invert(1);opacity:0.9;}
+        .footer-logo span{color:white;font-size:1.4rem;font-weight:800;}
+        .footer-brand p{font-size:0.95rem;max-width:280px;line-height:1.6;}
+        .footer-links h4{color:white;font-weight:600;margin-bottom:20px;}
+        .footer-links ul{display:flex;flex-direction:column;gap:12px;}
+        .footer-links a{font-size:0.95rem;transition:var(--transition);}
+        .footer-links a:hover{color:white;}
+        .footer-bottom{max-width:var(--max-width);margin:0 auto;padding-top:40px;border-top:1px solid #1E293B;display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;flex-wrap:wrap;gap:12px;}
+
+        #back-to-top{position:fixed;bottom:40px;right:40px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transition:var(--transition);z-index:99;border:none;}
+        #back-to-top.show{opacity:1;pointer-events:auto;}
+
+        @keyframes fadeIn{from{opacity:0;transform:scale(0.98);}to{opacity:1;transform:scale(1);}}
+
+        @media(max-width:1024px){
+            #hero{grid-template-columns:1fr;text-align:center;padding-top:120px;}
+            .hero-content p{margin:0 auto 40px auto;}
+            .hero-actions{justify-content:center;}
+            .hero-stats{justify-content:center;}
+            .hero-image-container{margin-top:40px;}
+            .why-container{grid-template-columns:1fr;}
+            .steps-container{grid-template-columns:repeat(2,1fr);}
+            .testimonials-grid{grid-template-columns:repeat(2,1fr);}
+            .pricing-container{grid-template-columns:1fr;max-width:420px;margin:0 auto;}
+            .security-grid{grid-template-columns:1fr 1fr;}
         }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .menu-toggle { display: block; }
-            .section-header h2 { font-size: 2rem; }
-            .hero-content h1 { font-size: 2.5rem; }
-            .steps-container { grid-template-columns: 1fr; }
-            .testimonials-grid { grid-template-columns: 1fr; }
-            .footer-container { grid-template-columns: 1fr; gap: 32px; }
-            .cta-wrapper h2 { font-size: 2rem; }
-            .cta-wrapper { padding: 60px 24px; }
-            .trial-banner { flex-direction: column; text-align: center; }
-            .hero-stats { flex-direction: column; gap: 16px; align-items: center; }
-            .security-grid { grid-template-columns: 1fr; }
-            .why-grid { grid-template-columns: 1fr; }
+        @media(max-width:768px){
+            .nav-links{display:none;}
+            .menu-toggle{display:block;}
+            .section-header h2{font-size:2rem;}
+            .hero-content h1{font-size:2.4rem;}
+            .steps-container{grid-template-columns:1fr;}
+            .testimonials-grid{grid-template-columns:1fr;}
+            .footer-container{grid-template-columns:1fr;gap:32px;}
+            .cta-wrapper h2{font-size:2rem;}
+            .cta-wrapper{padding:60px 24px;}
+            .trial-banner{flex-direction:column;text-align:center;}
+            .hero-stats{flex-direction:column;gap:16px;align-items:center;}
+            .security-grid{grid-template-columns:1fr;}
+            .why-grid{grid-template-columns:1fr;}
+            .phone-frame{width:220px;height:440px;}
         }
     </style>
 </head>
 <body>
 
-    <button id="back-to-top" aria-label="Kembali ke Atas"><i data-lucide="arrow-up"></i></button>
+<button id="back-to-top" aria-label="Kembali ke Atas">
+    <i data-lucide="arrow-up"></i>
+</button>
 
-    <!-- ═══════════════ NAVBAR ═══════════════ -->
-    <header id="header">
-        <div class="nav-container">
-            <a href="#" class="logo"><i data-lucide="shapes" style="stroke-width: 2.5px;"></i> Davcopia</a>
-            <nav class="nav-links" id="nav-links">
-                <a href="#features">Fitur</a>
-                <a href="#why">Keunggulan</a>
-                <a href="#pricing">Harga</a>
-                <a href="#preview">Preview</a>
-                <a href="#faq">FAQ</a>
-                <a href="#pricing" class="btn btn-primary" style="padding: 8px 20px;">Mulai Gratis</a>
-            </nav>
-            <div class="menu-toggle" id="menu-toggle"><i data-lucide="menu"></i></div>
+<!-- ═══════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════ -->
+<header id="header">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <img src="logo.png" alt="Davcopia Logo">
+            <span class="logo-text">Davcopia</span>
+        </a>
+        <nav class="nav-links" id="nav-links">
+            <a href="#features">Fitur</a>
+            <a href="#why">Keunggulan</a>
+            <a href="#pricing">Harga</a>
+            <a href="#preview">Preview</a>
+            <a href="#faq">FAQ</a>
+            <a href="davcopia.apk" download class="btn btn-primary" style="padding:8px 20px;">
+                <i data-lucide="download" style="width:16px;"></i> Download
+            </a>
+        </nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <i data-lucide="menu"></i>
         </div>
-    </header>
+    </div>
+</header>
 
-    <!-- ═══════════════ HERO ═══════════════ -->
-    <section id="hero">
-        <div class="hero-content reveal">
-            <span class="badge">✨ Offline-First — Tanpa Internet Tetap Jalan</span>
-            <h1>Aplikasi Kasir <span>Cepat & Aman</span> untuk Bisnis Anda</h1>
-            <p>Davcopia POS membantu UMKM, toko retail, warung, dan minimarket mengelola transaksi, stok barang, multi kasir, dan laporan penjualan — semua dalam satu aplikasi Android yang bekerja 100% offline.</p>
-            <div class="hero-actions">
-                <a href="#pricing" class="btn btn-primary">Download Gratis <i data-lucide="download"></i></a>
-                <a href="#features" class="btn btn-secondary">Lihat Fitur <i data-lucide="arrow-right"></i></a>
-            </div>
-            <div class="hero-stats">
-                <div class="hero-stat"><h3>100%</h3><p>Offline Ready</p></div>
-                <div class="hero-stat"><h3>AES-256</h3><p>Enkripsi Data</p></div>
-                <div class="hero-stat"><h3>< 1 dtk</h3><p>Proses Transaksi</p></div>
-            </div>
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section id="hero">
+    <div class="hero-content reveal">
+        <span class="badge">✨ Offline-First — Tanpa Internet Tetap Jalan</span>
+        <h1>Aplikasi Kasir <span>Cepat & Aman</span> untuk Bisnis Anda</h1>
+        <p>Davcopia POS membantu UMKM, toko retail, warung, dan minimarket mengelola transaksi, stok barang, multi kasir, dan laporan penjualan — semua dalam satu aplikasi Android yang bekerja 100% offline.</p>
+        <div class="hero-actions">
+            <a href="davcopia.apk" download class="btn btn-primary">
+                Download Gratis <i data-lucide="download"></i>
+            </a>
+            <a href="#features" class="btn btn-secondary">
+                Lihat Fitur <i data-lucide="arrow-right"></i>
+            </a>
         </div>
-        <div class="hero-image-container reveal" style="transition-delay: 0.2s;">
-            <div class="mockup-phone-hero">
-                <div class="notch"></div>
-                <div class="phone-screen">
-                    <div class="phone-ui-bar"><div class="dot"></div><div class="line"></div><div class="dot"></div></div>
-                    <div class="phone-ui-grid">
-                        <div class="phone-ui-card active"></div>
-                        <div class="phone-ui-card"></div>
-                        <div class="phone-ui-card"></div>
-                        <div class="phone-ui-card active"></div>
-                        <div class="phone-ui-card"></div>
-                        <div class="phone-ui-card"></div>
-                    </div>
-                    <div class="phone-ui-bottom">
-                        <div class="nav-dot active"></div>
-                        <div class="nav-dot"></div>
-                        <div class="nav-dot"></div>
-                        <div class="nav-dot"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="floating-badge badge-1"><i data-lucide="wifi-off" style="width:18px;height:18px;"></i> Offline Mode</div>
-            <div class="floating-badge badge-2"><i data-lucide="shield-check" style="width:18px;height:18px;"></i> Data Terenkripsi</div>
+        <div class="hero-stats">
+            <div class="hero-stat"><h3>100%</h3><p>Offline Ready</p></div>
+            <div class="hero-stat"><h3>AES-256</h3><p>Enkripsi Data</p></div>
+            <div class="hero-stat"><h3>&lt; 1 dtk</h3><p>Proses Transaksi</p></div>
         </div>
-    </section>
-
-    <!-- ═══════════════ FITUR ═══════════════ -->
-    <div id="features-bg">
-        <section id="features" class="reveal">
-            <div class="section-header">
-                <span class="badge">Fitur Lengkap</span>
-                <h2>Semua yang Bisnis Anda Butuhkan</h2>
-                <p>Fitur yang benar-benar dibangun untuk kebutuhan operasional harian toko dan UMKM.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="box"></i></div>
-                    <h3>Manajemen Barang</h3>
-                    <p>Kelola produk, stok, harga beli & jual, kategori, satuan, gambar produk, dan notifikasi stok minimum secara real-time.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="scan-barcode"></i></div>
-                    <h3>Kasir & Barcode Scanner</h3>
-                    <p>Proses transaksi cepat dengan pencarian instan atau scan barcode langsung dari kamera. Dukung pembayaran tunai, QRIS, dan transfer.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="bar-chart-3"></i></div>
-                    <h3>Laporan Penjualan</h3>
-                    <p>Grafik penjualan & laba, rekap harian, 5 produk terlaris, margin keuntungan, dan riwayat transaksi detail dengan filter periode.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="users"></i></div>
-                    <h3>Multi Kasir</h3>
-                    <p>Tambah hingga 3 kasir (Basic) atau 10 kasir (Pro) dengan login PIN masing-masing. Kelola dari satu akun admin.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="shield-check"></i></div>
-                    <h3>Hak Akses Kasir</h3>
-                    <p>Batasi akses kasir ke menu barang dan laporan. Kontrol penuh ada di tangan admin untuk mencegah kecurangan.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="wifi-off"></i></div>
-                    <h3>100% Offline First</h3>
-                    <p>Semua data tersimpan lokal di perangkat. Transaksi, input barang, dan laporan tetap berjalan normal tanpa internet.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="cloud"></i></div>
-                    <h3>Cloud Backup & Restore</h3>
-                    <p>Cadangkan data ke cloud server yang aman dan pulihkan kapan saja. Fitur eksklusif untuk pengguna Pro.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="smartphone"></i></div>
-                    <h3>Migrasi Perangkat</h3>
-                    <p>Pindahkan semua data bisnis ke HP baru dengan mudah tanpa risiko kehilangan data. Cukup backup lalu restore.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="receipt"></i></div>
-                    <h3>Struk Digital Kustom</h3>
-                    <p>Cetak atau bagikan struk transaksi sebagai gambar. Kustomisasi nama toko, alamat, dan footer struk (Pro).</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="file-spreadsheet"></i></div>
-                    <h3>Import & Export Excel</h3>
-                    <p>Import ribuan data barang sekaligus dari file Excel. Export laporan dan data produk untuk analisis lebih lanjut.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="lock-keyhole"></i></div>
-                    <h3>Login OTP WhatsApp</h3>
-                    <p>Admin login dengan verifikasi OTP via WhatsApp. Keamanan ekstra tanpa perlu mengingat password yang rumit.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="lock"></i></div>
-                    <h3>Enkripsi AES-256</h3>
-                    <p>Seluruh data lokal dienkripsi dengan standar keamanan AES-256. Data bisnis Anda terlindungi dari akses tidak sah.</p>
-                </div>
-            </div>
-        </section>
     </div>
 
-    <!-- ═══════════════ KEUNGGULAN ═══════════════ -->
-    <section id="why" class="why-container reveal">
-        <div class="why-grid">
-            <div class="why-card">
-                <h4><i data-lucide="zap" style="color: var(--primary); width:20px;"></i> Cepat</h4>
-                <p>Transaksi selesai dalam hitungan detik. Tidak perlu tunggu koneksi internet untuk melayani pelanggan.</p>
-            </div>
-            <div class="why-card">
-                <h4><i data-lucide="lock" style="color: var(--primary); width:20px;"></i> Aman</h4>
-                <p>Data terenkripsi AES-256. Cloud backup terproteksi. Login OTP WhatsApp untuk keamanan ekstra.</p>
-            </div>
-            <div class="why-card">
-                <h4><i data-lucide="hand" style="color: var(--primary); width:20px;"></i> Mudah</h4>
-                <p>Interface bersih dan intuitif. Kasir baru bisa langsung pakai tanpa pelatihan panjang.</p>
-            </div>
-            <div class="why-card">
-                <h4><i data-lucide="pie-chart" style="color: var(--primary); width:20px;"></i> Lengkap</h4>
-                <p>Dari transaksi, stok, laporan laba rugi, hingga manajemen kasir — semua dalam satu aplikasi.</p>
+    <div class="hero-image-container reveal" style="transition-delay:0.2s;">
+        <div class="phone-frame">
+            <div class="notch"></div>
+            <div class="phone-slides" id="heroSlides">
+                <div class="phone-slide active">
+                    <img src="gambar1.png" alt="Tampilan Kasir Davcopia">
+                </div>
+                <div class="phone-slide">
+                    <img src="gambar2.png" alt="Tampilan Laporan Davcopia">
+                </div>
+                <div class="phone-slide">
+                    <img src="gambar3.png" alt="Tampilan Barang Davcopia">
+                </div>
             </div>
         </div>
-        <div class="why-right">
-            <span class="badge">Mengapa Davcopia</span>
-            <h3>Satu Aplikasi untuk Semua Jenis Usaha</h3>
-            <p>Davcopia dirancang fleksibel untuk berbagai sektor bisnis. Dari warung kecil hingga toko retail modern, semua bisa terkelola dengan rapi.</p>
-            <div class="business-types">
-                <span class="type-tag"><i data-lucide="store" style="width:16px;"></i> Toko Retail</span>
-                <span class="type-tag"><i data-lucide="shopping-bag" style="width:16px;"></i> Minimarket</span>
-                <span class="type-tag"><i data-lucide="home" style="width:16px;"></i> Warung</span>
-                <span class="type-tag"><i data-lucide="coffee" style="width:16px;"></i> Kafe</span>
-                <span class="type-tag"><i data-lucide="briefcase" style="width:16px;"></i> UMKM</span>
-                <span class="type-tag"><i data-lucide="shirt" style="width:16px;"></i> Toko Pakaian</span>
-            </div>
+        <div class="phone-dots" id="heroDots">
+            <div class="phone-dot active" onclick="goToSlide(0)"></div>
+            <div class="phone-dot" onclick="goToSlide(1)"></div>
+            <div class="phone-dot" onclick="goToSlide(2)"></div>
         </div>
-    </section>
-
-    <!-- ═══════════════ HARGA ═══════════════ -->
-    <div id="plans-bg">
-        <section id="pricing" class="reveal">
-            <div class="section-header">
-                <span class="badge">Pilihan Paket</span>
-                <h2>Harga Transparan, Tanpa Biaya Tersembunyi</h2>
-                <p>Mulai gratis, upgrade kapan saja sesuai kebutuhan bisnis Anda.</p>
-            </div>
-
-            <div class="pricing-container">
-                <!-- FREE -->
-                <div class="pricing-card">
-                    <div class="pricing-plan-icon" style="background: rgba(100,116,139,0.1); color: #64748B;"><i data-lucide="user"></i></div>
-                    <h3>Free</h3>
-                    <div class="price"><span>Gratis</span></div>
-                    <p class="price-desc">Untuk mulai mengelola data barang</p>
-                    <ul class="pricing-features">
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Manajemen barang unlimited</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Kategori & satuan kustom</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Gambar produk</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Data offline & terenkripsi</li>
-                        <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Transaksi penjualan</li>
-                        <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Laporan penjualan</li>
-                        <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Multi kasir</li>
-                        <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Cloud backup</li>
-                    </ul>
-                    <button class="btn btn-secondary">Mulai Gratis</button>
-                </div>
-
-                <!-- BASIC -->
-                <div class="pricing-card">
-                    <div class="pricing-plan-icon" style="background: rgba(37,99,235,0.1); color: var(--primary);"><i data-lucide="verified"></i></div>
-                    <h3>Basic</h3>
-                    <div class="price"><span>Rp 50.000</span></div>
-                    <p class="price-period">/ bulan</p>
-                    <p class="price-desc">Untuk usaha yang sudah berjalan</p>
-                    <ul class="pricing-features">
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Semua fitur Free</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Transaksi penjualan</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Barcode scanner</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Laporan & grafik penjualan</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Hingga 3 kasir</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Hak akses kasir</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Struk digital (share gambar)</li>
-                        <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Cloud backup</li>
-                        <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Kustomisasi struk</li>
-                    </ul>
-                    <button class="btn btn-primary">Pilih Basic</button>
-                </div>
-
-                <!-- PRO -->
-                <div class="pricing-card premium">
-                    <span class="pricing-badge">⭐ Terlengkap</span>
-                    <div class="pricing-plan-icon" style="background: rgba(245,158,11,0.1); color: var(--accent-orange);"><i data-lucide="crown"></i></div>
-                    <h3>Pro</h3>
-                    <div class="price"><span>Rp 100.000</span></div>
-                    <p class="price-period">/ bulan</p>
-                    <p class="price-desc">Untuk bisnis yang ingin berkembang</p>
-                    <ul class="pricing-features">
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Semua fitur Basic</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Hingga 10 kasir</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Cloud backup & restore</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Migrasi perangkat</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Import & export Excel</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Kustomisasi struk lengkap</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Akses laporan untuk kasir</li>
-                        <li><i data-lucide="check" style="color: var(--accent); width:18px;"></i> Prioritas support</li>
-                    </ul>
-                    <button class="btn btn-pro">Upgrade ke Pro <i data-lucide="arrow-right"></i></button>
-                </div>
-            </div>
-
-            <!-- Trial Banner -->
-            <div class="trial-banner reveal">
-                <i data-lucide="gift" style="width:40px; height:40px; flex-shrink:0;"></i>
-                <div>
-                    <h4>🎉 Coba Trial 7 Hari Gratis!</h4>
-                    <p>Nikmati fitur transaksi, laporan, dan struk kustom selama 7 hari tanpa bayar. Langsung aktifkan dari dalam aplikasi.</p>
-                </div>
-            </div>
-        </section>
+        <div class="floating-badge badge-1">
+            <i data-lucide="wifi-off" style="width:16px;height:16px;"></i> Offline Mode
+        </div>
+        <div class="floating-badge badge-2">
+            <i data-lucide="shield-check" style="width:16px;height:16px;"></i> Data Terenkripsi
+        </div>
     </div>
+</section>
 
-    <!-- ═══════════════ PREVIEW ═══════════════ -->
-    <section id="preview" class="reveal">
+<!-- ═══════════════════════════════════════
+     FITUR
+═══════════════════════════════════════ -->
+<div id="features-bg">
+    <section id="features" class="reveal">
         <div class="section-header">
-            <span class="badge">Tampilan Aplikasi</span>
-            <h2>Lihat Langsung Antarmuka Davcopia</h2>
-            <p>Desain modern, bersih, dan intuitif yang dirancang untuk kenyamanan operasional harian.</p>
+            <span class="badge">Fitur Lengkap</span>
+            <h2>Semua yang Bisnis Anda Butuhkan</h2>
+            <p>Fitur yang benar-benar dibangun untuk kebutuhan operasional harian toko dan UMKM.</p>
         </div>
-        <div class="gallery-tabs">
-            <button class="tab-btn active" onclick="switchTab('kasir')">Kasir</button>
-            <button class="tab-btn" onclick="switchTab('barang')">Barang</button>
-            <button class="tab-btn" onclick="switchTab('laporan')">Laporan</button>
-            <button class="tab-btn" onclick="switchTab('karyawan')">Karyawan</button>
-            <button class="tab-btn" onclick="switchTab('pengaturan')">Pengaturan</button>
-            <button class="tab-btn" onclick="switchTab('backup')">Backup</button>
-        </div>
-        <div class="gallery-display">
-            <div id="kasir" class="gallery-view active">
-                <div class="preview-skeleton">
-                    <h3>🛒 Halaman Kasir</h3>
-                    <p>Antarmuka kasir dengan tampilan masonry grid produk. Cari barang instan atau scan barcode langsung dari kamera.</p>
-                    <ul>
-                        <li>Pencarian nama & kode barang real-time</li>
-                        <li>Scan barcode continuous mode</li>
-                        <li>Filter kategori produk</li>
-                        <li>Keranjang belanja dengan jumlah item</li>
-                        <li>Preview gambar produk (long press)</li>
-                        <li>Pembayaran tunai, QRIS, transfer</li>
-                    </ul>
-                </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="box"></i></div>
+                <h3>Manajemen Barang</h3>
+                <p>Kelola produk, stok, harga beli & jual, kategori, satuan, gambar produk, dan notifikasi stok minimum secara real-time.</p>
             </div>
-            <div id="barang" class="gallery-view">
-                <div class="preview-skeleton">
-                    <h3>📦 Manajemen Barang</h3>
-                    <p>Kelola seluruh katalog produk dengan kontrol penuh atas stok, harga, kategori, dan gambar produk.</p>
-                    <ul>
-                        <li>Tambah/edit/hapus barang dengan gambar</li>
-                        <li>Kode barang otomatis atau manual</li>
-                        <li>Kategori & satuan kustom</li>
-                        <li>Notifikasi stok minimum</li>
-                        <li>Import massal dari Excel</li>
-                        <li>Export data ke Excel</li>
-                    </ul>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="scan-barcode"></i></div>
+                <h3>Kasir & Barcode Scanner</h3>
+                <p>Proses transaksi cepat dengan pencarian instan atau scan barcode dari kamera. Dukung pembayaran tunai, QRIS, dan transfer.</p>
             </div>
-            <div id="laporan" class="gallery-view">
-                <div class="preview-skeleton">
-                    <h3>📊 Laporan Penjualan</h3>
-                    <p>Dashboard laporan lengkap dengan grafik visual, rekap harian, dan analisis produk terlaris.</p>
-                    <ul>
-                        <li>Ringkasan transaksi, penjualan, modal, laba</li>
-                        <li>Grafik penjualan & laba harian</li>
-                        <li>5 barang terlaris</li>
-                        <li>Rekap harian dengan tabel detail</li>
-                        <li>Cari & filter transaksi</li>
-                        <li>Ekspor & bagikan struk sebagai gambar</li>
-                    </ul>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="bar-chart-3"></i></div>
+                <h3>Laporan Penjualan</h3>
+                <p>Grafik penjualan & laba, rekap harian, 5 produk terlaris, margin keuntungan, dan riwayat transaksi dengan filter periode.</p>
             </div>
-            <div id="karyawan" class="gallery-view">
-                <div class="preview-skeleton">
-                    <h3>👥 Manajemen Karyawan</h3>
-                    <p>Kelola kasir dengan hak akses yang bisa dikontrol penuh oleh admin.</p>
-                    <ul>
-                        <li>Tambah kasir dengan PIN login</li>
-                        <li>Atur akses ke menu barang & laporan</li>
-                        <li>Aktifkan / nonaktifkan kasir</li>
-                        <li>Reset PIN kasir</li>
-                        <li>Maks 3 kasir (Basic) / 10 kasir (Pro)</li>
-                    </ul>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="users"></i></div>
+                <h3>Multi Kasir</h3>
+                <p>Tambah hingga 3 kasir (Basic) atau 10 kasir (Pro) dengan PIN login masing-masing. Kelola dari satu akun admin.</p>
             </div>
-            <div id="pengaturan" class="gallery-view">
-                <div class="preview-skeleton">
-                    <h3>⚙️ Pengaturan</h3>
-                    <p>Atur identitas toko, struk pembayaran, dan kelola status aplikasi.</p>
-                    <ul>
-                        <li>Informasi warung (nama, alamat, telp)</li>
-                        <li>Kustomisasi footer struk (Pro)</li>
-                        <li>Preview struk real-time</li>
-                        <li>Status & upgrade paket</li>
-                        <li>Informasi akun yang login</li>
-                    </ul>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+                <h3>Hak Akses Kasir</h3>
+                <p>Batasi akses kasir ke menu barang dan laporan. Kontrol penuh ada di tangan admin untuk mencegah kecurangan.</p>
             </div>
-            <div id="backup" class="gallery-view">
-                <div class="preview-skeleton">
-                    <h3>☁️ Backup & Restore</h3>
-                    <p>Cadangkan data bisnis ke cloud server yang aman dan pulihkan kapan saja di perangkat manapun.</p>
-                    <ul>
-                        <li>Backup manual ke cloud (Pro)</li>
-                        <li>Restore data dari cloud</li>
-                        <li>Riwayat aktivitas backup</li>
-                        <li>Device ID untuk keamanan</li>
-                        <li>Migrasi data ke perangkat baru</li>
-                    </ul>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="wifi-off"></i></div>
+                <h3>100% Offline First</h3>
+                <p>Semua data tersimpan lokal di perangkat. Transaksi, input barang, dan laporan berjalan normal tanpa internet.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="cloud"></i></div>
+                <h3>Cloud Backup & Restore</h3>
+                <p>Cadangkan data ke cloud server yang aman dan pulihkan kapan saja. Fitur eksklusif untuk pengguna Pro.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="smartphone"></i></div>
+                <h3>Migrasi Perangkat</h3>
+                <p>Pindahkan semua data bisnis ke HP baru tanpa risiko kehilangan data. Cukup backup lalu restore.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="receipt"></i></div>
+                <h3>Struk Digital Kustom</h3>
+                <p>Bagikan struk transaksi sebagai gambar. Kustomisasi nama toko, alamat, dan footer struk (Pro & Trial).</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="file-spreadsheet"></i></div>
+                <h3>Import & Export Excel</h3>
+                <p>Import ribuan data barang sekaligus dari file Excel. Export laporan dan data produk untuk analisis lanjutan.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="lock-keyhole"></i></div>
+                <h3>Login OTP WhatsApp</h3>
+                <p>Admin login dengan verifikasi OTP via WhatsApp. Keamanan ekstra tanpa perlu password yang rumit.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="lock"></i></div>
+                <h3>Enkripsi AES-256</h3>
+                <p>Seluruh data lokal dienkripsi AES-256. Data bisnis Anda terlindungi dari akses tidak sah.</p>
             </div>
         </div>
     </section>
+</div>
 
-    <!-- ═══════════════ CARA KERJA ═══════════════ -->
-    <div id="how-it-works-bg">
-        <section id="how-it-works" class="reveal">
-            <div class="section-header">
-                <span class="badge">Mulai dalam 5 Menit</span>
-                <h2>Cara Memulai Davcopia POS</h2>
-                <p>Setup cepat tanpa ribet — langsung bisa melayani pelanggan.</p>
-            </div>
-            <div class="steps-container">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>Install Aplikasi</h3>
-                    <p>Download Davcopia POS dari link resmi dan install di HP Android Anda.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>Daftar & Login</h3>
-                    <p>Masukkan nomor WhatsApp, verifikasi OTP, dan buat PIN login untuk keamanan.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>Input Barang</h3>
-                    <p>Tambahkan produk satu per satu atau import ribuan data sekaligus dari file Excel.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <h3>Mulai Berjualan</h3>
-                    <p>Buka layar kasir, scan/cari produk, proses pembayaran, dan bagikan struk digital.</p>
-                </div>
-            </div>
-        </section>
+<!-- ═══════════════════════════════════════
+     KEUNGGULAN
+═══════════════════════════════════════ -->
+<section id="why" class="why-container reveal">
+    <div class="why-grid">
+        <div class="why-card">
+            <h4><i data-lucide="zap" style="color:var(--primary);width:20px;"></i> Cepat</h4>
+            <p>Transaksi selesai dalam hitungan detik. Tidak perlu tunggu koneksi internet untuk melayani pelanggan.</p>
+        </div>
+        <div class="why-card">
+            <h4><i data-lucide="lock" style="color:var(--primary);width:20px;"></i> Aman</h4>
+            <p>Data terenkripsi AES-256. Cloud backup terproteksi. Login OTP WhatsApp untuk keamanan ekstra.</p>
+        </div>
+        <div class="why-card">
+            <h4><i data-lucide="hand" style="color:var(--primary);width:20px;"></i> Mudah</h4>
+            <p>Interface bersih dan intuitif. Kasir baru bisa langsung pakai tanpa pelatihan panjang.</p>
+        </div>
+        <div class="why-card">
+            <h4><i data-lucide="pie-chart" style="color:var(--primary);width:20px;"></i> Lengkap</h4>
+            <p>Dari transaksi, stok, laporan laba rugi, hingga manajemen kasir — semua dalam satu aplikasi.</p>
+        </div>
     </div>
-
-    <!-- ═══════════════ KEAMANAN ═══════════════ -->
-    <section id="security" class="reveal">
-        <div class="section-header">
-            <span class="badge">Keamanan Data</span>
-            <h2>Data Bisnis Anda Terlindungi</h2>
-            <p>Kami mengutamakan keamanan data dengan teknologi enkripsi dan proteksi berlapis.</p>
+    <div class="why-right">
+        <span class="badge">Mengapa Davcopia</span>
+        <h3>Satu Aplikasi untuk Semua Jenis Usaha</h3>
+        <p>Davcopia dirancang fleksibel untuk berbagai sektor bisnis. Dari warung kecil hingga toko retail modern, semua bisa terkelola dengan rapi.</p>
+        <div class="business-types">
+            <span class="type-tag"><i data-lucide="store" style="width:16px;"></i> Toko Retail</span>
+            <span class="type-tag"><i data-lucide="shopping-bag" style="width:16px;"></i> Minimarket</span>
+            <span class="type-tag"><i data-lucide="home" style="width:16px;"></i> Warung</span>
+            <span class="type-tag"><i data-lucide="coffee" style="width:16px;"></i> Kafe</span>
+            <span class="type-tag"><i data-lucide="briefcase" style="width:16px;"></i> UMKM</span>
+            <span class="type-tag"><i data-lucide="shirt" style="width:16px;"></i> Toko Pakaian</span>
         </div>
-        <div class="security-grid">
-            <div class="security-card">
-                <div class="icon-wrap"><i data-lucide="lock"></i></div>
-                <h4>Enkripsi AES-256</h4>
-                <p>Seluruh file data lokal dienkripsi dengan algoritma AES-256 CBC. Tidak bisa dibaca tanpa kunci perangkat.</p>
-            </div>
-            <div class="security-card">
-                <div class="icon-wrap"><i data-lucide="key-round"></i></div>
-                <h4>Login OTP WhatsApp</h4>
-                <p>Admin login dengan kode OTP yang dikirim langsung ke WhatsApp. Tanpa password yang bisa ditebak.</p>
-            </div>
-            <div class="security-card">
-                <div class="icon-wrap"><i data-lucide="shield-check"></i></div>
-                <h4>Proteksi Perangkat</h4>
-                <p>Setiap perangkat terdaftar dengan Device ID unik. Akun hanya aktif di satu perangkat dalam satu waktu.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════ TESTIMONI ═══════════════ -->
-    <section id="testimonials" class="reveal">
-        <div class="section-header">
-            <span class="badge">Testimoni</span>
-            <h2>Dipercaya Pemilik Bisnis di Indonesia</h2>
-            <p>Cerita nyata dari pengguna Davcopia yang merasakan kemudahan mengelola usaha mereka.</p>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div>
-                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
-                    <blockquote>"Sinyal di daerah saya sering hilang, tapi dengan Davcopia kasir tetap jalan lancar. Fitur offline-nya benar-benar bisa diandalkan setiap hari."</blockquote>
-                </div>
-                <div class="user-info">
-                    <div class="user-avatar">B</div>
-                    <div class="user-details"><h4>Budi Santoso</h4><span>Pemilik Toko Kelontong, Kalimantan</span></div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div>
-                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
-                    <blockquote>"Import barang dari Excel sangat menghemat waktu. Ribuan produk langsung masuk dalam hitungan detik. Laporan laba ruginya juga sangat jelas."</blockquote>
-                </div>
-                <div class="user-info">
-                    <div class="user-avatar">A</div>
-                    <div class="user-details"><h4>Amelia Wijaya</h4><span>Owner Minimarket, Pontianak</span></div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div>
-                    <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
-                    <blockquote>"Saya bisa atur kasir mana yang boleh lihat laporan dan mana yang tidak. Sangat tenang karena ada kontrol penuh atas akses karyawan."</blockquote>
-                </div>
-                <div class="user-info">
-                    <div class="user-avatar">H</div>
-                    <div class="user-details"><h4>Hendra Kurnia</h4><span>Pemilik 2 Cabang Retail, Bandung</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════ FAQ ═══════════════ -->
-    <div id="faq-bg">
-        <section id="faq" class="reveal">
-            <div class="section-header">
-                <span class="badge">FAQ</span>
-                <h2>Pertanyaan yang Sering Diajukan</h2>
-                <p>Jawaban lengkap seputar fitur, paket, dan cara penggunaan Davcopia POS.</p>
-            </div>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Apakah Davcopia bisa digunakan tanpa internet?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">Ya, Davcopia menggunakan arsitektur offline-first. Semua data tersimpan di penyimpanan lokal perangkat yang terenkripsi. Anda bisa melakukan transaksi kasir, input barang, dan melihat laporan penjualan tanpa internet sama sekali. Internet hanya diperlukan saat login pertama kali (verifikasi OTP), cloud backup, dan sinkronisasi status paket.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Apa perbedaan paket Free, Basic, dan Pro?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer"><strong>Free</strong> — hanya bisa mengelola data barang (tanpa transaksi dan laporan).<br><strong>Basic (Rp 50.000/bln)</strong> — transaksi kasir, laporan penjualan, hingga 3 kasir, hak akses, struk digital.<br><strong>Pro (Rp 100.000/bln)</strong> — semua fitur Basic + cloud backup & restore, hingga 10 kasir, import/export Excel, kustomisasi struk, akses laporan untuk kasir, dan prioritas support.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Apakah ada trial gratis?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">Ya! Setiap pengguna baru mendapat kesempatan Trial 7 hari gratis. Selama trial, Anda bisa menikmati fitur transaksi, laporan penjualan, dan kustomisasi struk. Trial hanya bisa digunakan satu kali per perangkat. Setelah trial berakhir, akun kembali ke mode Free.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Berapa maksimal kasir yang didukung?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">Paket Basic mendukung hingga 3 kasir aktif, sedangkan paket Pro mendukung hingga 10 kasir. Setiap kasir memiliki PIN login sendiri dan hak akses yang bisa diatur oleh admin (akses ke menu barang dan laporan bisa diaktifkan/dinonaktifkan).</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Bagaimana cara backup dan restore data?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">Untuk pengguna Pro, buka menu Pengaturan → Pencadangan & Perangkat → tekan "Cadangkan" untuk upload data ke cloud server kami. Untuk restore, tekan "Pulihkan" dan data terakhir akan di-download dan diterapkan. Backup dilakukan secara manual untuk memberi Anda kontrol penuh kapan data dicadangkan. Semua data backup terenkripsi.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Apakah data saya aman?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">Sangat aman. Semua file data lokal dienkripsi menggunakan algoritma AES-256 CBC dengan kunci unik per pemilik toko. Setiap perangkat terdaftar dengan Device ID unik dan akun dilindungi dengan OTP WhatsApp. Cloud backup juga terenkripsi dan hanya bisa diakses oleh pemilik akun.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Bagaimana cara upgrade paket?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">Buka menu Pengaturan → Status Aplikasi → pilih paket yang diinginkan → kirim permintaan upgrade. Admin kami akan menghubungi Anda melalui WhatsApp untuk proses pembayaran dan aktivasi. Anda juga bisa menggunakan kode promo jika tersedia untuk mendapatkan diskon.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Bagaimana jika saya ganti HP?</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">Untuk pengguna Pro: lakukan backup ke cloud di HP lama, lalu install Davcopia di HP baru, login dengan nomor WhatsApp yang sama, dan pilih "Pulihkan" untuk mendownload semua data. Untuk pengguna Basic: Anda bisa export data sebagai file backup lokal, pindahkan file ke HP baru, lalu import kembali.</div>
-                </div>
-            </div>
-        </section>
     </div>
+</section>
 
-    <!-- ═══════════════ CTA ═══════════════ -->
-    <section id="cta">
-        <div class="cta-wrapper reveal">
-            <h2>Siap Mengelola Bisnis Lebih Efisien?</h2>
-            <p>Download Davcopia POS sekarang dan rasakan kemudahan mengelola toko Anda — cepat, offline, dan aman.</p>
-            <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
-                <a href="#" class="btn" style="background: white; color: var(--secondary);">Download APK <i data-lucide="download"></i></a>
-                <a href="https://wa.me/6285753613718?text=Halo%20Davcopia%2C%20saya%20ingin%20bertanya%20tentang%20aplikasi%20POS" target="_blank" class="btn btn-secondary" style="color: white; border-color: rgba(255,255,255,0.3);">Hubungi via WhatsApp <i data-lucide="message-circle"></i></a>
-            </div>
+<!-- ═══════════════════════════════════════
+     HARGA
+═══════════════════════════════════════ -->
+<div id="plans-bg">
+    <section id="pricing" class="reveal">
+        <div class="section-header">
+            <span class="badge">Pilihan Paket</span>
+            <h2>Harga Transparan, Tanpa Biaya Tersembunyi</h2>
+            <p>Mulai gratis, upgrade kapan saja. Punya kode promo? Masukkan saat pesan untuk dapatkan harga spesial.</p>
         </div>
-    </section>
 
-    <!-- ═══════════════ FOOTER ═══════════════ -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-brand">
-                <h3><i data-lucide="shapes"></i> Davcopia POS</h3>
-                <p>Aplikasi kasir offline-first modern untuk UMKM dan bisnis retail di Indonesia. Cepat, aman, dan mudah digunakan.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Navigasi</h4>
-                <ul>
-                    <li><a href="#">Beranda</a></li>
-                    <li><a href="#features">Fitur</a></li>
-                    <li><a href="#pricing">Harga</a></li>
-                    <li><a href="#preview">Preview</a></li>
+        <div class="pricing-container">
+            <!-- FREE -->
+            <div class="pricing-card">
+                <div class="pricing-plan-icon" style="background:rgba(100,116,139,0.1);color:#64748B;">
+                    <i data-lucide="user"></i>
+                </div>
+                <h3>Free</h3>
+                <div class="price"><span>Gratis</span></div>
+                <p class="price-desc">Untuk mulai mengelola data barang</p>
+                <ul class="pricing-features">
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Manajemen barang unlimited</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Kategori & satuan kustom</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Gambar produk</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Data offline & terenkripsi</li>
+                    <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Transaksi penjualan</li>
+                    <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Laporan penjualan</li>
+                    <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Multi kasir</li>
+                    <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Cloud backup</li>
                 </ul>
+                <a href="davcopia.apk" download class="btn btn-secondary">Download Gratis</a>
             </div>
-            <div class="footer-links">
-                <h4>Bantuan</h4>
-                <ul>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="https://wa.me/6285753613718" target="_blank">WhatsApp Support</a></li>
+
+            <!-- BASIC -->
+            <div class="pricing-card">
+                <div class="pricing-plan-icon" style="background:rgba(37,99,235,0.1);color:var(--primary);">
+                    <i data-lucide="badge-check"></i>
+                </div>
+                <h3>Basic</h3>
+                <div class="price"><span id="price-basic">Rp 50.000</span></div>
+                <p class="price-period">/ bulan</p>
+                <p class="price-promo" id="promo-info-basic"></p>
+                <p class="price-desc">Untuk usaha yang sudah berjalan</p>
+                <ul class="pricing-features">
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Semua fitur Free</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Transaksi penjualan</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Barcode scanner</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Laporan & grafik penjualan</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Hingga 3 kasir</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Hak akses kasir</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Struk digital (share gambar)</li>
+                    <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Cloud backup</li>
+                    <li class="disabled"><i data-lucide="x" style="width:18px;"></i> Kustomisasi struk</li>
                 </ul>
+                <!-- Promo section -->
+                <div class="promo-section">
+                    <label>🏷️ Kode Promo (Opsional)</label>
+                    <div class="promo-input-row">
+                        <input type="text" id="promo-basic" placeholder="Masukkan kode promo">
+                        <button onclick="applyPromo('basic')">Pakai</button>
+                    </div>
+                    <div class="promo-result" id="promo-result-basic"></div>
+                </div>
+                <br>
+                <a href="https://wa.me/6285753613718?text=Halo%20Davcopia%2C%20saya%20ingin%20berlangganan%20paket%20BASIC." target="_blank" class="btn btn-primary">
+                    Pilih Basic <i data-lucide="arrow-right"></i>
+                </a>
             </div>
-            <div class="footer-links">
-                <h4>Legal</h4>
+
+            <!-- PRO -->
+            <div class="pricing-card premium">
+                <span class="pricing-badge">⭐ Terlengkap</span>
+                <div class="pricing-plan-icon" style="background:rgba(245,158,11,0.1);color:var(--accent-orange);">
+                    <i data-lucide="crown"></i>
+                </div>
+                <h3>Pro</h3>
+                <div class="price"><span id="price-pro">Rp 100.000</span></div>
+                <p class="price-period">/ bulan</p>
+                <p class="price-promo" id="promo-info-pro"></p>
+                <p class="price-desc">Untuk bisnis yang ingin berkembang</p>
+                <ul class="pricing-features">
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Semua fitur Basic</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Hingga 10 kasir</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Cloud backup & restore</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Migrasi perangkat</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Import & export Excel</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Kustomisasi struk lengkap</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Akses laporan untuk kasir</li>
+                    <li><i data-lucide="check" style="color:var(--accent);width:18px;"></i> Prioritas support</li>
+                </ul>
+                <!-- Promo section -->
+                <div class="promo-section">
+                    <label>🏷️ Kode Promo (Opsional)</label>
+                    <div class="promo-input-row">
+                        <input type="text" id="promo-pro" placeholder="Masukkan kode promo">
+                        <button onclick="applyPromo('pro')">Pakai</button>
+                    </div>
+                    <div class="promo-result" id="promo-result-pro"></div>
+                </div>
+                <br>
+                <a href="https://wa.me/6285753613718?text=Halo%20Davcopia%2C%20saya%20ingin%20berlangganan%20paket%20PRO." target="_blank" class="btn btn-pro">
+                    Upgrade ke Pro <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Trial Banner -->
+        <div class="trial-banner reveal">
+            <i data-lucide="gift" style="width:40px;height:40px;flex-shrink:0;"></i>
+            <div>
+                <h4>🎉 Coba Trial 7 Hari Gratis!</h4>
+                <p>Nikmati fitur transaksi, laporan, dan struk kustom selama 7 hari tanpa bayar. Aktifkan langsung dari dalam aplikasi — tanpa kartu kredit.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PREVIEW APLIKASI
+═══════════════════════════════════════ -->
+<section id="preview" class="reveal">
+    <div class="section-header">
+        <span class="badge">Tampilan Aplikasi</span>
+        <h2>Lihat Langsung Antarmuka Davcopia</h2>
+        <p>Desain modern, bersih, dan intuitif yang dirancang untuk kenyamanan operasional harian.</p>
+    </div>
+    <div class="gallery-tabs">
+        <button class="tab-btn active" onclick="switchTab('kasir', event)">Kasir</button>
+        <button class="tab-btn" onclick="switchTab('barang', event)">Barang</button>
+        <button class="tab-btn" onclick="switchTab('laporan', event)">Laporan</button>
+        <button class="tab-btn" onclick="switchTab('karyawan', event)">Karyawan</button>
+        <button class="tab-btn" onclick="switchTab('pengaturan', event)">Pengaturan</button>
+        <button class="tab-btn" onclick="switchTab('backup', event)">Backup</button>
+    </div>
+    <div class="gallery-display">
+
+        <!-- Kasir — tampilkan gambar1 -->
+        <div id="kasir" class="gallery-view active">
+            <div class="gallery-screenshot">
+                <img src="gambar1.png" alt="Tampilan Halaman Kasir Davcopia">
+            </div>
+        </div>
+
+        <!-- Barang — tampilkan gambar2 -->
+        <div id="barang" class="gallery-view">
+            <div class="gallery-screenshot">
+                <img src="gambar2.png" alt="Tampilan Manajemen Barang Davcopia">
+            </div>
+        </div>
+
+        <!-- Laporan — tampilkan gambar3 -->
+        <div id="laporan" class="gallery-view">
+            <div class="gallery-screenshot">
+                <img src="gambar3.png" alt="Tampilan Laporan Penjualan Davcopia">
+            </div>
+        </div>
+
+        <!-- Karyawan — teks deskripsi -->
+        <div id="karyawan" class="gallery-view">
+            <div class="preview-skeleton">
+                <h3>👥 Manajemen Karyawan</h3>
+                <p>Kelola kasir dengan hak akses yang bisa dikontrol penuh oleh admin.</p>
                 <ul>
-                    <li><a href="#">Kebijakan Privasi</a></li>
-                    <li><a href="#">Syarat & Ketentuan</a></li>
+                    <li>Tambah kasir dengan PIN login</li>
+                    <li>Atur akses ke menu barang & laporan</li>
+                    <li>Aktifkan / nonaktifkan kasir</li>
+                    <li>Reset PIN kasir kapan saja</li>
+                    <li>Maks 3 kasir (Basic) / 10 kasir (Pro)</li>
                 </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Davcopia. All Rights Reserved.</p>
-            <p style="font-size: 0.8rem; color: #475569;">Made with ❤️ in Indonesia</p>
+
+        <!-- Pengaturan — teks deskripsi -->
+        <div id="pengaturan" class="gallery-view">
+            <div class="preview-skeleton">
+                <h3>⚙️ Pengaturan</h3>
+                <p>Atur identitas toko, struk pembayaran, dan kelola status aplikasi.</p>
+                <ul>
+                    <li>Informasi warung: nama, alamat, telepon</li>
+                    <li>Kustomisasi header & footer struk (Pro)</li>
+                    <li>Preview struk secara real-time</li>
+                    <li>Status paket & tombol upgrade</li>
+                    <li>Informasi akun yang sedang login</li>
+                </ul>
+            </div>
         </div>
-    </footer>
 
-    <script>
-        lucide.createIcons();
+        <!-- Backup — teks deskripsi -->
+        <div id="backup" class="gallery-view">
+            <div class="preview-skeleton">
+                <h3>☁️ Backup & Restore</h3>
+                <p>Cadangkan data bisnis ke cloud server yang aman dan pulihkan kapan saja.</p>
+                <ul>
+                    <li>Backup manual ke cloud (Pro)</li>
+                    <li>Restore data dari cloud terenkripsi</li>
+                    <li>Riwayat aktivitas backup</li>
+                    <li>Device ID untuk keamanan perangkat</li>
+                    <li>Migrasi data ke HP baru dengan mudah</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
-        // Sticky Navbar
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 50);
-        });
+<!-- ═══════════════════════════════════════
+     CARA KERJA
+═══════════════════════════════════════ -->
+<div id="how-it-works-bg">
+    <section id="how-it-works" class="reveal">
+        <div class="section-header">
+            <span class="badge">Mulai dalam 5 Menit</span>
+            <h2>Cara Memulai Davcopia POS</h2>
+            <p>Setup cepat tanpa ribet — langsung bisa melayani pelanggan.</p>
+        </div>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Download & Install</h3>
+                <p>Download file APK Davcopia dari halaman ini dan install di HP Android Anda.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Daftar & Login</h3>
+                <p>Masukkan nomor WhatsApp, verifikasi OTP, dan mulai gunakan aplikasi.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Input Barang</h3>
+                <p>Tambah produk satu per satu atau import massal dari file Excel.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Mulai Berjualan</h3>
+                <p>Buka layar kasir, scan atau cari produk, proses bayar, dan bagikan struk digital.</p>
+            </div>
+        </div>
+    </section>
+</div>
 
-        // Mobile Menu
-        const menuToggle = document.getElementById('menu-toggle');
-        const navLinks = document.getElementById('nav-links');
-        let menuOpen = false;
+<!-- ═══════════════════════════════════════
+     KEAMANAN
+═══════════════════════════════════════ -->
+<section id="security" class="reveal">
+    <div class="section-header">
+        <span class="badge">Keamanan Data</span>
+        <h2>Data Bisnis Anda Terlindungi</h2>
+        <p>Kami mengutamakan keamanan data dengan enkripsi dan proteksi berlapis.</p>
+    </div>
+    <div class="security-grid">
+        <div class="security-card">
+            <div class="icon-wrap"><i data-lucide="lock"></i></div>
+            <h4>Enkripsi AES-256</h4>
+            <p>Seluruh file data lokal dienkripsi AES-256 CBC. Tidak bisa dibaca tanpa kunci unik pemilik toko.</p>
+        </div>
+        <div class="security-card">
+            <div class="icon-wrap"><i data-lucide="key-round"></i></div>
+            <h4>Login OTP WhatsApp</h4>
+            <p>Admin login dengan OTP yang dikirim langsung ke WhatsApp. Tanpa password yang bisa ditebak.</p>
+        </div>
+        <div class="security-card">
+            <div class="icon-wrap"><i data-lucide="shield-check"></i></div>
+            <h4>Proteksi Perangkat</h4>
+            <p>Setiap perangkat punya Device ID unik. Akun hanya aktif di satu perangkat dalam satu waktu.</p>
+        </div>
+    </div>
+</section>
 
-        menuToggle.addEventListener('click', () => {
-            menuOpen = !menuOpen;
-            if (menuOpen) {
-                navLinks.style.display = 'flex';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.width = '100%';
-                navLinks.style.background = '#FFF';
-                navLinks.style.padding = '24px';
-                navLinks.style.borderBottom = '1px solid var(--border)';
-                navLinks.style.boxShadow = 'var(--shadow-md)';
-                navLinks.style.gap = '16px';
-            } else {
+<!-- ═══════════════════════════════════════
+     TESTIMONI
+═══════════════════════════════════════ -->
+<section id="testimonials" class="reveal">
+    <div class="section-header">
+        <span class="badge">Testimoni</span>
+        <h2>Dipercaya Pemilik Bisnis di Indonesia</h2>
+        <p>Cerita nyata dari pengguna Davcopia yang merasakan kemudahan mengelola usaha mereka.</p>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card">
+            <div>
+                <div class="stars">
+                    <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                    <i data-lucide="star"></i><i data-lucide="star"></i>
+                </div>
+                <blockquote>"Sinyal di daerah saya sering hilang, tapi dengan Davcopia kasir tetap jalan lancar. Fitur offline-nya benar-benar bisa diandalkan setiap hari."</blockquote>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">B</div>
+                <div class="user-details">
+                    <h4>Budi Santoso</h4>
+                    <span>Pemilik Toko Kelontong, Kalimantan</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div>
+                <div class="stars">
+                    <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                    <i data-lucide="star"></i><i data-lucide="star"></i>
+                </div>
+                <blockquote>"Import barang dari Excel menghemat waktu luar biasa. Ribuan produk langsung masuk dalam detik. Laporan laba ruginya juga sangat jelas dan detail."</blockquote>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <div class="user-details">
+                    <h4>Amelia Wijaya</h4>
+                    <span>Owner Minimarket, Pontianak</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div>
+                <div class="stars">
+                    <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                    <i data-lucide="star"></i><i data-lucide="star"></i>
+                </div>
+                <blockquote>"Saya bisa atur kasir mana yang boleh lihat laporan dan mana yang tidak. Sangat tenang karena ada kontrol penuh atas akses setiap karyawan."</blockquote>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">H</div>
+                <div class="user-details">
+                    <h4>Hendra Kurnia</h4>
+                    <span>Pemilik 2 Cabang Retail, Bandung</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FAQ
+═══════════════════════════════════════ -->
+<div id="faq-bg">
+    <section id="faq" class="reveal">
+        <div class="section-header">
+            <span class="badge">FAQ</span>
+            <h2>Pertanyaan yang Sering Diajukan</h2>
+            <p>Jawaban lengkap seputar fitur, paket, dan cara penggunaan Davcopia POS.</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Apakah Davcopia bisa digunakan tanpa internet?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Ya, Davcopia menggunakan arsitektur offline-first. Semua data tersimpan lokal terenkripsi. Transaksi kasir, input barang, dan laporan berjalan tanpa internet. Internet hanya diperlukan saat login pertama (OTP), cloud backup, dan sinkronisasi status paket.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Apa perbedaan paket Free, Basic, dan Pro?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer"><strong>Free</strong> — gratis selamanya, hanya manajemen barang.<br><strong>Basic (mulai Rp 50.000/bln)</strong> — transaksi kasir, laporan penjualan, hingga 3 kasir, struk digital. Harga bisa lebih hemat dengan kode promo.<br><strong>Pro (mulai Rp 100.000/bln)</strong> — semua fitur Basic + cloud backup, 10 kasir, import/export Excel, kustomisasi struk. Tersedia diskon dengan kode promo.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Bagaimana cara mendapatkan dan menggunakan kode promo?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Kode promo bisa didapatkan dari event khusus, promo peluncuran, atau langsung dari admin Davcopia. Untuk menggunakannya, masukkan kode di kolom "Kode Promo" pada halaman harga di website ini, atau langsung di dalam aplikasi saat proses upgrade. Diskon akan dihitung otomatis sebelum Anda konfirmasi pembayaran.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Apakah ada trial gratis?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Ya! Setiap pengguna baru mendapat Trial 7 hari gratis. Nikmati fitur transaksi, laporan, dan kustomisasi struk tanpa bayar. Trial hanya bisa digunakan satu kali per perangkat. Setelah berakhir, akun kembali ke mode Free.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Berapa maksimal kasir yang didukung?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Paket Basic mendukung hingga 3 kasir aktif. Paket Pro mendukung hingga 10 kasir. Setiap kasir punya PIN sendiri dan hak akses yang bisa diatur oleh admin secara terpisah.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Bagaimana cara backup dan restore data?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Pengguna Pro bisa backup manual dari Pengaturan → Pencadangan & Perangkat → "Cadangkan". Untuk restore, tekan "Pulihkan". Backup bersifat manual agar Anda punya kontrol penuh. Semua data backup terenkripsi dan aman.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Apakah data saya aman?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Sangat aman. Data lokal dienkripsi AES-256 dengan kunci unik per pemilik toko. Login dilindungi OTP WhatsApp. Cloud backup juga terenkripsi dan hanya bisa diakses pemilik akun.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Bagaimana cara upgrade paket?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Klik tombol "Pilih Basic" atau "Upgrade ke Pro" di halaman harga, Anda akan diarahkan ke WhatsApp admin. Atau buka Pengaturan → Status Aplikasi di dalam aplikasi. Admin akan memproses pembayaran dan mengaktifkan paket Anda. Bisa gunakan kode promo untuk diskon harga.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Bagaimana jika saya ganti HP?</span>
+                    <i data-lucide="chevron-down" class="faq-icon"></i>
+                </div>
+                <div class="faq-answer">Pengguna Pro: backup di HP lama → install di HP baru → login → restore. Pengguna Basic: export data lokal → pindah ke HP baru → import kembali. Data Anda tidak akan hilang.</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CTA
+═══════════════════════════════════════ -->
+<section id="cta">
+    <div class="cta-wrapper reveal">
+        <h2>Siap Mengelola Bisnis Lebih Efisien?</h2>
+        <p>Download Davcopia POS sekarang dan rasakan kemudahan mengelola toko Anda — cepat, offline, dan aman.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+            <a href="davcopia.apk" download class="btn" style="background:white;color:var(--secondary);">
+                Download APK <i data-lucide="download"></i>
+            </a>
+            <a href="https://wa.me/6285753613718?text=Halo%20Davcopia%2C%20saya%20ingin%20bertanya%20tentang%20aplikasi%20POS"
+               target="_blank"
+               class="btn btn-secondary"
+               style="color:white;border-color:rgba(255,255,255,0.3);">
+                Hubungi via WhatsApp <i data-lucide="message-circle"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-brand">
+            <div class="footer-logo">
+                <img src="logo.png" alt="Davcopia Logo">
+                <span>Davcopia POS</span>
+            </div>
+            <p>Aplikasi kasir offline-first modern untuk UMKM dan bisnis retail di Indonesia. Cepat, aman, dan mudah digunakan.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Navigasi</h4>
+            <ul>
+                <li><a href="#">Beranda</a></li>
+                <li><a href="#features">Fitur</a></li>
+                <li><a href="#pricing">Harga</a></li>
+                <li><a href="#preview">Preview</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Bantuan</h4>
+            <ul>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="https://wa.me/6285753613718" target="_blank">WhatsApp Support</a></li>
+                <li><a href="davcopia.apk" download>Download APK</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="#">Kebijakan Privasi</a></li>
+                <li><a href="#">Syarat & Ketentuan</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Davcopia. All Rights Reserved.</p>
+        <p style="font-size:0.8rem;color:#475569;">Made with ❤️ in Indonesia</p>
+    </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+    lucide.createIcons();
+
+    // ── Sticky Navbar ──
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ── Mobile Menu ──
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks   = document.getElementById('nav-links');
+    let menuOpen = false;
+
+    menuToggle.addEventListener('click', () => {
+        menuOpen = !menuOpen;
+        if (menuOpen) {
+            Object.assign(navLinks.style, {
+                display: 'flex', flexDirection: 'column',
+                position: 'absolute', top: '100%', left: '0',
+                width: '100%', background: '#FFF',
+                padding: '24px', borderBottom: '1px solid var(--border)',
+                boxShadow: 'var(--shadow-md)', gap: '16px', zIndex: '999'
+            });
+        } else {
+            navLinks.style.display = 'none';
+        }
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
                 navLinks.style.display = 'none';
+                menuOpen = false;
             }
         });
+    });
 
-        // Close menu on link click (mobile)
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    navLinks.style.display = 'none';
-                    menuOpen = false;
-                }
-            });
+    // ── Scroll Reveal ──
+    const revealOnScroll = () => {
+        document.querySelectorAll('.reveal').forEach(el => {
+            if (el.getBoundingClientRect().top < window.innerHeight - 80) {
+                el.classList.add('active');
+            }
         });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
 
-        // Scroll Reveal
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealOnScroll = () => {
-            revealElements.forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 80) {
-                    el.classList.add('active');
-                }
-            });
-        };
-        window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load', revealOnScroll);
+    // ── Back to Top ──
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+        backToTopBtn.classList.toggle('show', window.scrollY > 400);
+    });
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-        // Back to Top
-        const backToTopBtn = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => {
-            backToTopBtn.classList.toggle('show', window.scrollY > 400);
+    // ── FAQ Accordion ──
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.querySelector('.faq-question').addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
         });
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+    });
 
-        // FAQ Accordion
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.querySelector('.faq-question').addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                if (!isActive) item.classList.add('active');
-            });
-        });
+    // ── Preview Tabs ──
+    function switchTab(tabId, e) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.gallery-view').forEach(v => v.classList.remove('active'));
+        if (e && e.target) e.target.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
 
-        // Preview Tabs
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.gallery-view').forEach(view => view.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+    // ── Hero Phone Slider ──
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.phone-slide');
+    const dots   = document.querySelectorAll('.phone-dot');
+
+    function goToSlide(index) {
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+
+    // Auto-slide setiap 3 detik
+    setInterval(() => {
+        goToSlide((currentSlide + 1) % slides.length);
+    }, 3000);
+
+    // ── Promo Code Handler ──
+    // Konfigurasi kode promo
+    // Format: { 'KODE': { type: 'percent'|'fixed', value: angka, label: 'deskripsi' } }
+    const PROMO_CODES = {
+        'DAVCOPIA10'  : { type: 'percent', value: 10,    label: 'Diskon 10%'       },
+        'DAVCOPIA20'  : { type: 'percent', value: 20,    label: 'Diskon 20%'       },
+        'LAUNCH50'    : { type: 'percent', value: 50,    label: 'Diskon 50% Promo Launching' },
+        'BASIC10K'    : { type: 'fixed',   value: 10000, label: 'Potongan Rp 10.000' },
+        'PRO20K'      : { type: 'fixed',   value: 20000, label: 'Potongan Rp 20.000' },
+    };
+
+    const BASE_PRICES = { basic: 50000, pro: 100000 };
+
+    function formatRupiah(angka) {
+        return 'Rp ' + angka.toLocaleString('id-ID');
+    }
+
+    function applyPromo(plan) {
+        const inputEl   = document.getElementById(`promo-${plan}`);
+        const resultEl  = document.getElementById(`promo-result-${plan}`);
+        const priceEl   = document.getElementById(`price-${plan}`);
+        const infoEl    = document.getElementById(`promo-info-${plan}`);
+        const code      = inputEl.value.trim().toUpperCase();
+
+        if (!code) {
+            resultEl.textContent = 'Masukkan kode promo terlebih dahulu.';
+            resultEl.className   = 'promo-result error';
+            return;
         }
-    </script>
+
+        const promo = PROMO_CODES[code];
+        if (!promo) {
+            resultEl.textContent = '❌ Kode promo tidak valid atau sudah tidak berlaku.';
+            resultEl.className   = 'promo-result error';
+            priceEl.textContent  = formatRupiah(BASE_PRICES[plan]);
+            infoEl.textContent   = '';
+            return;
+        }
+
+        const basePrice = BASE_PRICES[plan];
+        let finalPrice;
+
+        if (promo.type === 'percent') {
+            finalPrice = Math.round(basePrice * (1 - promo.value / 100));
+        } else {
+            finalPrice = Math.max(0, basePrice - promo.value);
+        }
+
+        priceEl.textContent  = formatRupiah(finalPrice);
+        infoEl.textContent   = `✅ ${promo.label} berhasil diterapkan!`;
+        resultEl.textContent = `Hemat ${promo.type === 'percent' ? promo.value + '%' : formatRupiah(promo.value)} dari harga normal ${formatRupiah(basePrice)}.`;
+        resultEl.className   = 'promo-result success';
+
+        // Update link WA dengan info promo
+        const planLabel = plan === 'basic' ? 'BASIC' : 'PRO';
+        const waLink    = `https://wa.me/6285753613718?text=Halo%20Davcopia%2C%20saya%20ingin%20berlangganan%20paket%20${planLabel}%20dengan%20kode%20promo%20${code}%20(${formatRupiah(finalPrice)}/bln).`;
+        const btnEl     = document.querySelector(`#pricing .pricing-card:nth-child(${plan === 'basic' ? 2 : 3}) .btn`);
+        if (btnEl && btnEl.tagName === 'A') btnEl.href = waLink;
+    }
+
+    // Enter key untuk input promo
+    ['promo-basic', 'promo-pro'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    applyPromo(id.replace('promo-', ''));
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
